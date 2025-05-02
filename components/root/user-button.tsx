@@ -22,6 +22,41 @@ import { signOut } from 'supertokens-web-js/recipe/emailpassword';
 import { Skeleton } from '../ui/skeleton';
 import { useAuth } from '@/hooks/use-auth';
 
+function UserSkeleton() {
+	return (
+		<div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+			<Skeleton className="h-8 w-8 rounded-lg" />
+			<div className="grid flex-1 text-left text-sm leading-tight">
+				<Skeleton className="mb-1 h-4 w-24" />
+				<Skeleton className="h-3 w-16" />
+			</div>
+		</div>
+	);
+}
+
+function UserInfo({
+	avatar,
+	name,
+	email,
+}: {
+	avatar: string;
+	name: string;
+	email: string;
+}) {
+	return (
+		<div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+			<Avatar className="h-8 w-8 rounded-lg">
+				<AvatarImage src={avatar} alt={name || 'User'} />
+				<AvatarFallback className="rounded-lg">{name?.at(0)}</AvatarFallback>
+			</Avatar>
+			<div className="grid flex-1 text-left text-sm leading-tight">
+				<span className="truncate font-semibold">{name}</span>
+				<span className="truncate text-xs">{email}</span>
+			</div>
+		</div>
+	);
+}
+
 export function UserButton({
 	user,
 }: {
@@ -35,13 +70,12 @@ export function UserButton({
 
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger className="flex items-center gap-3">
+			<DropdownMenuTrigger className="flex cursor-pointer items-center gap-3 focus-visible:outline-0">
 				<Avatar className="h-8 w-8 rounded-lg">
 					{isLoading ? (
 						<Skeleton className="h-8 w-8 rounded-lg" />
 					) : (
 						<>
-							<AvatarImage src={user.avatar} alt={full_name || 'User'} />
 							<AvatarFallback className="rounded-lg">
 								{full_name?.at(0)}
 							</AvatarFallback>
@@ -70,33 +104,15 @@ export function UserButton({
 				sideOffset={4}
 			>
 				<DropdownMenuLabel className="p-0 font-normal">
-					<div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-						<Avatar className="h-8 w-8 rounded-lg">
-							{isLoading ? (
-								<Skeleton className="h-8 w-8 rounded-lg" />
-							) : (
-								<>
-									<AvatarImage src={user.avatar} alt={full_name || 'User'} />
-									<AvatarFallback className="rounded-lg">
-										{full_name?.at(0)}
-									</AvatarFallback>
-								</>
-							)}
-						</Avatar>
-						<div className="grid flex-1 text-left text-sm leading-tight">
-							{isLoading ? (
-								<>
-									<Skeleton className="mb-1 h-4 w-24" />
-									<Skeleton className="h-3 w-16" />
-								</>
-							) : (
-								<>
-									<span className="truncate font-semibold">{full_name}</span>
-									<span className="truncate text-xs">{email}</span>
-								</>
-							)}
-						</div>
-					</div>
+					{isLoading ? (
+						<UserSkeleton />
+					) : (
+						<UserInfo
+							avatar={user.avatar}
+							name={full_name}
+							email={email as string}
+						/>
+					)}
 				</DropdownMenuLabel>
 
 				<DropdownMenuSeparator />
