@@ -8,7 +8,7 @@ import {
 	LogOut,
 } from 'lucide-react';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -21,51 +21,9 @@ import {
 import { signOut } from 'supertokens-web-js/recipe/emailpassword';
 import { Skeleton } from '../ui/skeleton';
 import { useAuth } from '@/hooks/use-auth';
+import { ThemeToggle } from './theme-toggle';
 
-function UserSkeleton() {
-	return (
-		<div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-			<Skeleton className="h-8 w-8 rounded-lg" />
-			<div className="grid flex-1 text-left text-sm leading-tight">
-				<Skeleton className="mb-1 h-4 w-24" />
-				<Skeleton className="h-3 w-16" />
-			</div>
-		</div>
-	);
-}
-
-function UserInfo({
-	avatar,
-	name,
-	email,
-}: {
-	avatar: string;
-	name: string;
-	email: string;
-}) {
-	return (
-		<div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-			<Avatar className="h-8 w-8 rounded-lg">
-				<AvatarImage src={avatar} alt={name || 'User'} />
-				<AvatarFallback className="rounded-lg">{name?.at(0)}</AvatarFallback>
-			</Avatar>
-			<div className="grid flex-1 text-left text-sm leading-tight">
-				<span className="truncate font-semibold">{name}</span>
-				<span className="truncate text-xs">{email}</span>
-			</div>
-		</div>
-	);
-}
-
-export function UserButton({
-	user,
-}: {
-	user: {
-		name: string;
-		email: string;
-		avatar: string;
-	};
-}) {
+export function UserButton() {
 	const { isLoading, email, full_name } = useAuth();
 
 	return (
@@ -103,19 +61,6 @@ export function UserButton({
 				align="end"
 				sideOffset={4}
 			>
-				<DropdownMenuLabel className="p-0 font-normal">
-					{isLoading ? (
-						<UserSkeleton />
-					) : (
-						<UserInfo
-							avatar={user.avatar}
-							name={full_name}
-							email={email as string}
-						/>
-					)}
-				</DropdownMenuLabel>
-
-				<DropdownMenuSeparator />
 				<DropdownMenuGroup>
 					<DropdownMenuItem>
 						<BadgeCheck className="mr-2 h-4 w-4" />
@@ -135,6 +80,9 @@ export function UserButton({
 					<LogOut className="mr-2 h-4 w-4" />
 					Log out
 				</DropdownMenuItem>
+				<DropdownMenuLabel>
+					<ThemeToggle />
+				</DropdownMenuLabel>
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);

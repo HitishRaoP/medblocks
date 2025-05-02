@@ -28,12 +28,18 @@ export const NavMain = ({ items }: { items: Item[] }) => {
 		<div>
 			{items.map((item: Item) => (
 				<SidebarGroup key={item.title}>
-					<SidebarGroupLabel>{item.title.toUpperCase()}</SidebarGroupLabel>
+					<SidebarGroupLabel className="font-bold">
+						{item.title.toUpperCase()}
+					</SidebarGroupLabel>
 					<SidebarGroupContent>
 						<SidebarMenu>
 							{item.items.map((item) => (
 								<SidebarMenuItem key={item.title}>
-									<SidebarMenuButton asChild isActive={item.isActive}>
+									<SidebarMenuButton
+										asChild
+										isActive={item.isActive}
+										size={'lg'}
+									>
 										<a href={item.url}>
 											<item.icon />
 											<span>{item.title} </span>

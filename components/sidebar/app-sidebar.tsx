@@ -11,20 +11,16 @@ import {
 	SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import {
-	BaggageClaim,
 	Calendar,
-	ChartLine,
 	Command,
 	CreditCard,
 	LayoutDashboard,
 	LifeBuoy,
 	Send,
 	ShoppingBag,
-	ShoppingCart,
 	Stethoscope,
 	UserRound,
 	Users,
-	WalletCards,
 } from 'lucide-react';
 import { NavSecondary } from './nav-secondary';
 import { NavMain } from './nav-main';
@@ -37,65 +33,39 @@ const data = {
 			items: [
 				{
 					title: 'Reservations',
-					url: '#',
+					url: '/reservations',
 					icon: Calendar,
 				},
 				{
 					title: 'Patients',
-					url: '#',
+					url: '/patients',
 					icon: UserRound,
 				},
 				{
 					title: 'Treatments',
-					url: '#',
+					url: '/treatments',
 					icon: Stethoscope,
 				},
 				{
 					title: 'Staff List',
-					url: '#',
+					url: '/staff-list',
 					icon: Users,
 				},
 			],
 		},
 		{
 			title: 'Finance',
-			url: '#',
+			url: '/',
 			items: [
 				{
-					title: 'Accounts',
-					url: '#',
-					icon: WalletCards,
-				},
-				{
-					title: 'Sales',
-					url: '#',
-					icon: ChartLine,
-				},
-				{
-					title: 'Purchases',
-					url: '#',
+					title: 'Billing',
+					url: '/billing',
 					icon: ShoppingBag,
 				},
 				{
 					title: 'Payment Method',
-					url: '#',
+					url: '/payment-method',
 					icon: CreditCard,
-				},
-			],
-		},
-		{
-			title: 'Physical Asset',
-			url: '#',
-			items: [
-				{
-					title: 'Stocks',
-					url: '#',
-					icon: BaggageClaim,
-				},
-				{
-					title: 'Pheriperals',
-					url: '#',
-					icon: ShoppingCart,
 				},
 			],
 		},
@@ -103,19 +73,19 @@ const data = {
 	navSecondaryTop: [
 		{
 			title: 'Dashboard',
-			url: '#',
+			url: '/',
 			icon: LayoutDashboard,
 		},
 	],
 	navSecondaryBottom: [
 		{
 			title: 'Support',
-			url: '#',
+			url: '/support',
 			icon: LifeBuoy,
 		},
 		{
 			title: 'Feedback',
-			url: '#',
+			url: '/feedback',
 			icon: Send,
 		},
 	],
@@ -141,7 +111,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 				</SidebarMenu>
 			</SidebarHeader>
 			<SidebarContent>
-				<NavSecondary items={data.navSecondaryTop} className="mt-auto" />
+				<NavSecondary items={data.navSecondaryTop} />
 				<NavMain items={data.navMain} />
 				<NavSecondary items={data.navSecondaryBottom} className="mt-auto" />
 			</SidebarContent>

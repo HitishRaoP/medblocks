@@ -8,12 +8,15 @@ import {
 	BreadcrumbItem,
 	BreadcrumbLink,
 	BreadcrumbList,
-	BreadcrumbPage,
 	BreadcrumbSeparator,
 } from '../ui/breadcrumb';
 import { UserButton } from './user-button';
+import { usePathname } from 'next/navigation';
+import { capitalize } from '@/lib/utils';
 
 export const HeaderMain = () => {
+	const breadcrumbs = usePathname().split('/').slice(1);
+
 	return (
 		<header className="flex items-center justify-between border-b px-4">
 			<div className="flex h-16 shrink-0 items-center gap-2">
@@ -21,25 +24,22 @@ export const HeaderMain = () => {
 				<Separator orientation="vertical" className="mr-2 h-4" />
 				<Breadcrumb>
 					<BreadcrumbList>
-						<BreadcrumbItem className="hidden md:block">
-							<BreadcrumbLink href="#">
-								Building Your Application
-							</BreadcrumbLink>
-						</BreadcrumbItem>
-						<BreadcrumbSeparator className="hidden md:block" />
-						<BreadcrumbItem>
-							<BreadcrumbPage>Data Fetching</BreadcrumbPage>
-						</BreadcrumbItem>
+						{breadcrumbs.map((b, i) => (
+							<React.Fragment key={i}>
+								<BreadcrumbItem className="hidden md:block">
+									<BreadcrumbLink href={`/${b}`}>
+										{capitalize(decodeURIComponent(b))}
+									</BreadcrumbLink>
+								</BreadcrumbItem>
+								{i < breadcrumbs.length - 1 && (
+									<BreadcrumbSeparator className="hidden md:block" />
+								)}
+							</React.Fragment>
+						))}
 					</BreadcrumbList>
 				</Breadcrumb>
 			</div>
-			<UserButton
-				user={{
-					name: 'shadcn',
-					email: 'm@example.com',
-					avatar: '/avatars/shadcn.jpg',
-				}}
-			/>
+			<UserButton />
 		</header>
 	);
 };
