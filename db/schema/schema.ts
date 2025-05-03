@@ -1,6 +1,6 @@
 import path from "path";
-import { getDB } from "../pglite";
 import fs from "fs";
+import { getDB } from "../pglite";
 
 /**
  * Patient

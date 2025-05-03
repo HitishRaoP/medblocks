@@ -9,7 +9,8 @@ CREATE TABLE IF NOT EXISTS patient (
     address TEXT,
     emergency_contact VARCHAR(100),
     insurance_provider VARCHAR(100),
-    insurance_number VARCHAR(50)
+    insurance_number VARCHAR(50),
+    status VARCHAR(10) CHECK (status IN ('Inpatient', 'Outpatient', 'Discharged', 'Emergency'))
 );
 
 CREATE TABLE IF NOT EXISTS staff (

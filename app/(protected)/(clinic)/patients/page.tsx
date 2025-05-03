@@ -5,7 +5,7 @@ import React from 'react';
 const PatientsPage = async () => {
 	const response = await getAllPatients();
 
-	return <PatientMain patients={response} />;
+	return <PatientMain patients={response.data} count={response.count} />;
 };
 
 export default PatientsPage;

@@ -1,4 +1,4 @@
-export type Gender = 'Male' | 'Female' | 'Other';
+import { Gender, PatientStatus } from './enums';
 
 export interface Patient {
 	id: string;
@@ -12,6 +12,7 @@ export interface Patient {
 	emergency_contact?: string;
 	insurance_provider?: string;
 	insurance_number?: string;
+	status: PatientStatus;
 }
 
 export interface Staff {

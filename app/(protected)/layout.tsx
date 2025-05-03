@@ -11,7 +11,7 @@ const ProtectedLayout = ({ children }: { children: React.ReactNode }) => {
 				<AppSidebar />
 				<SidebarInset>
 					<HeaderMain />
-					<div className="p-4">{children}</div>
+					<div className="p-6">{children}</div>
 				</SidebarInset>
 			</SidebarProvider>
 		</SessionAuth>

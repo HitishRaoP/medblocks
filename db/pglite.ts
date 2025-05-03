@@ -1,16 +1,17 @@
 import { PGlite } from "@electric-sql/pglite"
-import { live } from "@electric-sql/pglite/live";
+import { live, PGliteWithLive } from "@electric-sql/pglite/live";
 
 /**
+ * Singleton approach like prisma
  * Reference for creating the instance
   * https://www.youtube.com/watch?v=AvJGFsYpQdI&t=588s
  */
-let db: PGlite;
+let db: PGliteWithLive;
 export async function getDB() {
   if (db) {
     return db;
   }
-  const liveDB = new PGlite(process.env.DB_URI, {
+  const liveDB = await PGlite.create("file://E:/projects/is/medblocks/db/database", {
     extensions: {
       live
     },

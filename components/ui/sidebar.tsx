@@ -520,7 +520,7 @@ function SidebarMenuButton({
 			className={cn(
 				sidebarMenuButtonVariants({ variant, size }),
 				className,
-				isActive && 'border shadow-sm',
+				isActive ? 'border shadow-sm' : '',
 			)}
 			{...props}
 		/>
