@@ -3,6 +3,7 @@
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { User } from 'supertokens-node/types';
+import { API_ROUTES } from '@/lib/constants';
 
 type Metadata = {
 	first_name: string;
@@ -14,7 +15,7 @@ export const useAuth = () => {
 		queryKey: ['user'],
 		queryFn: async function () {
 			const response = await axios.get<{ user: User; metadata: Metadata }>(
-				'/api/user',
+				API_ROUTES.USER,
 			);
 			return response.data;
 		},

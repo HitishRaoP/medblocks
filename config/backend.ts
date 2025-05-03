@@ -5,6 +5,7 @@ import { appInfo } from './appInfo';
 import { TypeInput } from 'supertokens-node/types';
 import UserMetadata from 'supertokens-node/recipe/usermetadata';
 import axios from 'axios';
+import { API_ROUTES } from '@/lib/constants';
 
 export const backendConfig = (): TypeInput => {
 	return {
@@ -47,7 +48,7 @@ export const backendConfig = (): TypeInput => {
 										(f) => f.id === 'last_name',
 									)?.value;
 
-									await axios.post('http://localhost:3000/api/user', {
+									await axios.post(API_ROUTES.USER, {
 										first_name,
 										last_name,
 										userId: response.user.id,

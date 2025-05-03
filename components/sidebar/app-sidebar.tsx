@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-
 import {
 	Sidebar,
 	SidebarContent,
@@ -10,88 +9,14 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import {
-	Calendar,
-	Command,
-	CreditCard,
-	LayoutDashboard,
-	LifeBuoy,
-	Send,
-	ShoppingBag,
-	Stethoscope,
-	UserRound,
-	Users,
-} from 'lucide-react';
+import { Command } from 'lucide-react';
 import { NavSecondary } from './nav-secondary';
 import { NavMain } from './nav-main';
-
-const data = {
-	navMain: [
-		{
-			title: 'Clinic',
-			url: '/',
-			items: [
-				{
-					title: 'Reservations',
-					url: '/reservations',
-					icon: Calendar,
-				},
-				{
-					title: 'Patients',
-					url: '/patients',
-					icon: UserRound,
-				},
-				{
-					title: 'Treatments',
-					url: '/treatments',
-					icon: Stethoscope,
-				},
-				{
-					title: 'Staff List',
-					url: '/staff-list',
-					icon: Users,
-				},
-			],
-		},
-		{
-			title: 'Finance',
-			url: '/',
-			items: [
-				{
-					title: 'Billing',
-					url: '/billing',
-					icon: ShoppingBag,
-				},
-				{
-					title: 'Payment Method',
-					url: '/payment-method',
-					icon: CreditCard,
-				},
-			],
-		},
-	],
-	navSecondaryTop: [
-		{
-			title: 'Dashboard',
-			url: '/',
-			icon: LayoutDashboard,
-		},
-	],
-	navSecondaryBottom: [
-		{
-			title: 'Support',
-			url: '/support',
-			icon: LifeBuoy,
-		},
-		{
-			title: 'Feedback',
-			url: '/feedback',
-			icon: Send,
-		},
-	],
-};
+import { useAppSidebar } from '@/hooks/use-app-sidebar';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+	const { data } = useAppSidebar();
+
 	return (
 		<Sidebar {...props}>
 			<SidebarHeader>
