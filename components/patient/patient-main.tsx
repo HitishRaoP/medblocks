@@ -21,10 +21,7 @@ export const PatientMain = ({
 			searchKey={'first_name'}
 			searchPlaceholder="Name"
 			facetKey={'status'}
-			facetOptions={PatientStatuses.map((s) => ({
-				label: s,
-				value: s,
-			}))}
+			facetOptions={PatientStatuses.map((e) => e)}
 			redirectPath={({ row }) => `/patients/${row?.getValue('id')}`}
 		/>
 	);

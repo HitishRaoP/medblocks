@@ -57,8 +57,8 @@ export const useAppSidebar = () => {
 				url: '/',
 				items: [
 					{
-						title: 'Reservations',
-						url: '/reservations',
+						title: 'Appointments',
+						url: '/appointments',
 						icon: Calendar,
 					},
 					{

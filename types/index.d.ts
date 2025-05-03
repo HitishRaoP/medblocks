@@ -19,10 +19,11 @@ export interface Staff {
 	id: string;
 	first_name: string;
 	last_name: string;
-	role: string;
 	specialization?: string;
 	phone: string;
 	email: string;
 	address: string;
+	working_days: WeekDay[];
+	type: StaffType;
 	kmc: string;
 }

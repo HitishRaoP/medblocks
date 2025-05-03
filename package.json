@@ -12,6 +12,7 @@
     "format:check": "bun format --check",
     "check-types": "tsc --noEmit --pretty",
     "validate": "bun run format:write && bun run check-types && bun run lint && bun run build",
+    "bootstrap": "sh scripts/index.sh",
     "prepare": "husky"
   },
   "dependencies": {
@@ -52,12 +53,15 @@
     "@eslint/eslintrc": "^3",
     "@faker-js/faker": "^9.7.0",
     "@tailwindcss/postcss": "^4",
+    "@types/figlet": "^1.7.0",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "chalk": "^5.4.1",
     "eslint": "^9",
     "eslint-config-next": "15.3.1",
+    "figlet": "^1.8.1",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.1",
     "prettier": "^3.5.3",

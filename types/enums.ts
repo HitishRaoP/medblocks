@@ -10,3 +10,19 @@ export const PatientStatuses = [
 ] as const;
 
 export type PatientStatus = (typeof PatientStatuses)[number];
+
+export const StaffTypes = ['Full_time', 'Part_time'] as const;
+
+export const WeekDays = [
+	'Sunday',
+	'Monday',
+	'Tuesday',
+	'Wednesday',
+	'Thursday',
+	'Friday',
+	'Saturday',
+] as const;
+
+export type WeekDay = (typeof WeekDays)[number];
+
+export type StaffType = (typeof StaffTypes)[number];

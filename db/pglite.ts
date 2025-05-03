@@ -1,6 +1,11 @@
+"use server"
+
 import { PGlite } from "@electric-sql/pglite"
 import { live, PGliteWithLive } from "@electric-sql/pglite/live";
+import { loadEnvConfig } from '@next/env'
+import path from "path";
 
+loadEnvConfig(path.resolve(__dirname, "../"));
 /**
  * Singleton approach like prisma
  * Reference for creating the instance
@@ -11,7 +16,7 @@ export async function getDB() {
   if (db) {
     return db;
   }
-  const liveDB = await PGlite.create("file://E:/projects/is/medblocks/db/database", {
+  const liveDB = await PGlite.create(process.env.DB_PATH, {
     extensions: {
       live
     },

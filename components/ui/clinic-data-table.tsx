@@ -35,13 +35,7 @@ interface ClinicDatatableProps<TData, TValue> {
 	searchKey: string;
 	searchPlaceholder?: string;
 	facetKey: string;
-	facetOptions: {
-		label: string;
-		value: string;
-		icon?: React.ComponentType<{
-			className?: string;
-		}>;
-	}[];
+	facetOptions: string[];
 	redirectPath?: ({ row }: { row?: Row<TData> }) => string;
 }
 
@@ -76,7 +70,7 @@ export const ClinicDatatable = <TData, TValue>({
 			{/**
 			 * Header
 			 */}
-			<div className="mb-6 flex flex-col items-start justify-between rounded-lg md:flex-row md:items-center">
+			<div className="mb-6 flex items-center justify-between rounded-lg">
 				<div className="flex items-center gap-2">
 					<Users className="bg-muted rounded-md p-1 shadow" size={34} />
 					<h1 className="text-xl font-semibold">
@@ -84,13 +78,12 @@ export const ClinicDatatable = <TData, TValue>({
 						{count > 0 ? 's' : ''}
 					</h1>
 				</div>
-				<div className="mt-4 flex w-full space-x-2 md:mt-0 md:w-auto">
-					<Button className="flex items-center gap-2 bg-indigo-500 text-white hover:bg-indigo-600">
-						<Plus className="h-4 w-4" />
-						Add {title}
-					</Button>
-				</div>
+				<Button className="gap-2 bg-indigo-500 text-white hover:bg-indigo-600">
+					<Plus className="h-4 w-4" />
+					<span className="hidden sm:flex">Add {title}</span>
+				</Button>
 			</div>
+
 			{/**
 			 * Data-table
 			 */}
@@ -109,7 +102,10 @@ export const ClinicDatatable = <TData, TValue>({
 					<DataTableFacetedFilter
 						title={facetKey}
 						column={table.getColumn(facetKey)}
-						options={facetOptions}
+						options={facetOptions.map((w) => ({
+							value: w,
+							label: w,
+						}))}
 					/>
 					<DataTableViewOptions table={table} />
 				</div>
@@ -125,7 +121,9 @@ export const ClinicDatatable = <TData, TValue>({
 										{header.isPlaceholder
 											? null
 											: flexRender(
-													header.column.columnDef.header,
+													header.column.columnDef.header
+														?.toString()
+														.toUpperCase(),
 													header.getContext(),
 												)}
 									</TableHead>

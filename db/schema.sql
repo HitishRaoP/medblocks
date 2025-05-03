@@ -17,10 +17,11 @@ CREATE TABLE IF NOT EXISTS staff (
     id TEXT PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
-    role VARCHAR(50) NOT NULL,
     specialization VARCHAR(100),
     phone VARCHAR(15) UNIQUE NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     address TEXT NOT NULL,
+    working_days TEXT[] DEFAULT '{}' NOT NULL,
+    type TEXT CHECK (type IN ('Full_time', 'Part_time')),
     kmc VARCHAR(50) UNIQUE NOT NULL
 );

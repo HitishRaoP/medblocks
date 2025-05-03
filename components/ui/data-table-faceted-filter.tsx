@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Column } from '@tanstack/react-table';
 import { Check, PlusCircle } from 'lucide-react';
 
-import { cn } from '@/lib/utils';
+import { capitalize, cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -44,7 +44,7 @@ export function DataTableFacetedFilter<TData, TValue>({
 			<PopoverTrigger asChild>
 				<Button variant="outline" size="sm" className="h-8 border-dashed">
 					<PlusCircle />
-					{title}
+					{capitalize(title as string)}
 					{selectedValues?.size > 0 && (
 						<>
 							<Separator orientation="vertical" className="mx-2 h-4" />
