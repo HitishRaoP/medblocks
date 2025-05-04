@@ -32,6 +32,17 @@ const AvatarImage = React.forwardRef<
 ));
 AvatarImage.displayName = AvatarPrimitive.Image.displayName;
 
+const colors = [
+	'from-blue-100 to-blue-300',
+	'from-green-100 to-teal-200',
+	'from-cyan-100 to-blue-200',
+	'from-indigo-100 to-purple-200',
+	'from-lime-100 to-emerald-200',
+	'from-sky-100 to-sky-300',
+	'from-violet-100 to-indigo-200'
+];
+const gradient = colors[Math.floor(Math.random() * colors.length)];
+
 const AvatarFallback = React.forwardRef<
 	React.ElementRef<typeof AvatarPrimitive.Fallback>,
 	React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>
@@ -40,6 +51,7 @@ const AvatarFallback = React.forwardRef<
 		ref={ref}
 		className={cn(
 			'bg-muted flex h-full w-full items-center justify-center rounded-full',
+			`rounded-full text-slate-700 font-semibold bg-gradient-to-r ${gradient}`,
 			className,
 		)}
 		{...props}

@@ -35,7 +35,6 @@ type NavSecondary = {
 
 type Data = {
 	navSecondaryTop: NavSecondary[];
-	navSecondaryBottom: NavSecondary[];
 	navMain: Item[];
 };
 
@@ -78,43 +77,11 @@ export const useAppSidebar = () => {
 					},
 				],
 			},
-			{
-				title: 'Finance',
-				url: '/',
-				items: [
-					{
-						title: 'Billing',
-						url: '/billing',
-						icon: ShoppingBag,
-					},
-					{
-						title: 'Payment Method',
-						url: '/payment-method',
-						icon: CreditCard,
-					},
-				],
-			},
-		],
-		navSecondaryBottom: [
-			{
-				title: 'Support',
-				url: '/support',
-				icon: LifeBuoy,
-			},
-			{
-				title: 'Feedback',
-				url: '/feedback',
-				icon: Send,
-			},
 		],
 	};
 
 	const dataWithPath: Data = {
 		navSecondaryTop: data.navSecondaryTop.map((item) => ({
-			...item,
-			isActive: markActive(item.url),
-		})),
-		navSecondaryBottom: data.navSecondaryBottom.map((item) => ({
 			...item,
 			isActive: markActive(item.url),
 		})),

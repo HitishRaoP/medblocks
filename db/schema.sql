@@ -1,3 +1,7 @@
+-- Create ENUM for appointment status
+CREATE TYPE appointment_status AS ENUM ('Scheduled', 'Completed', 'Cancelled');
+
+-- Patient Table
 CREATE TABLE IF NOT EXISTS patient (
     id TEXT PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
@@ -10,9 +14,10 @@ CREATE TABLE IF NOT EXISTS patient (
     emergency_contact VARCHAR(100),
     insurance_provider VARCHAR(100),
     insurance_number VARCHAR(50),
-    status VARCHAR(10) CHECK (status IN ('Inpatient', 'Outpatient', 'Discharged', 'Emergency'))
+    status VARCHAR(15) CHECK (status IN ('Inpatient', 'Outpatient', 'Discharged', 'Emergency'))
 );
 
+-- Staff Table
 CREATE TABLE IF NOT EXISTS staff (
     id TEXT PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
@@ -24,4 +29,29 @@ CREATE TABLE IF NOT EXISTS staff (
     working_days TEXT[] DEFAULT '{}' NOT NULL,
     type TEXT CHECK (type IN ('Full_time', 'Part_time')),
     kmc VARCHAR(50) UNIQUE NOT NULL
+);
+
+-- Treatment Table
+CREATE TABLE IF NOT EXISTS treatment (
+    id TEXT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description VARCHAR(200),
+    patient_id TEXT NOT NULL REFERENCES patient(id) ON DELETE CASCADE,
+    doctor_id TEXT NOT NULL REFERENCES staff(id) ON DELETE CASCADE,
+    price NUMERIC(10, 2) NOT NULL CHECK (price >= 0),
+    duration INTEGER NOT NULL CHECK (duration > 0),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Appointment Table
+CREATE TABLE IF NOT EXISTS appointment (
+    id TEXT PRIMARY KEY,
+    treatment_id TEXT NOT NULL REFERENCES treatment(id) ON DELETE CASCADE,
+    date DATE NOT NULL,
+    start_time TIME NOT NULL,
+    end_time TIME NOT NULL,
+    status appointment_status NOT NULL DEFAULT 'Scheduled',
+    notes TEXT,
+    visit_number INTEGER NOT NULL CHECK (visit_number > 0),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

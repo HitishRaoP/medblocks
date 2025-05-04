@@ -1,5 +1,5 @@
 import React from 'react';
-import { PatientDetailsMain } from '@/components/patient/patient-details-main';
+import { PatientDetailsMain } from '@/components/patient/patient-detailed-main';
 
 const PatientDetailsPage = async ({
 	params,

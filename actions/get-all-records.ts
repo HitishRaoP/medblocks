@@ -1,14 +1,13 @@
 "use server"
 
 import { getDB } from "@/db/pglite";
-import { Staff } from "@/types";
 
-export async function getAllStaff() {
-    const QUERY = `SELECT * FROM staff`;
+export async function getAllRecords<T>(table: 'patient' | 'staff' | 'appointment' |'treatment') {
+    const QUERY = `SELECT * FROM ${table}`;
 
     try {
         const db = await getDB()
-        const response = await db.query<Staff>(QUERY);
+        const response = await db.query<T>(QUERY);
         return {
             count: response.rows.length,
             data: response.rows

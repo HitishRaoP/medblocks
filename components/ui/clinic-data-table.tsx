@@ -26,6 +26,7 @@ import { redirect } from 'next/navigation';
 import { DataTableViewOptions } from './data-table-view-options';
 import { DataTableFacetedFilter } from './data-table-faceted-filter';
 import { Input } from './input';
+import { CopyButton } from '../root/copy-button';
 
 interface ClinicDatatableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
@@ -34,9 +35,12 @@ interface ClinicDatatableProps<TData, TValue> {
 	count: number;
 	searchKey: string;
 	searchPlaceholder?: string;
-	facetKey: string;
-	facetOptions: string[];
 	redirectPath?: ({ row }: { row?: Row<TData> }) => string;
+	addButton?: React.JSX.Element
+	facet?: {
+		facetKey: string;
+		facetOptions: string[];
+	}
 }
 
 export const ClinicDatatable = <TData, TValue>({
@@ -46,9 +50,9 @@ export const ClinicDatatable = <TData, TValue>({
 	columns,
 	searchKey,
 	searchPlaceholder,
-	facetKey,
-	facetOptions,
 	redirectPath,
+	addButton,
+	facet
 }: ClinicDatatableProps<TData, TValue>) => {
 	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
 		[],
@@ -78,10 +82,9 @@ export const ClinicDatatable = <TData, TValue>({
 						{count > 0 ? 's' : ''}
 					</h1>
 				</div>
-				<Button className="gap-2 bg-indigo-500 text-white hover:bg-indigo-600">
-					<Plus className="h-4 w-4" />
-					<span className="hidden sm:flex">Add {title}</span>
-				</Button>
+				{
+					addButton ? addButton : null
+				}
 			</div>
 
 			{/**
@@ -99,14 +102,17 @@ export const ClinicDatatable = <TData, TValue>({
 						}
 						className="max-w-sm"
 					/>
-					<DataTableFacetedFilter
-						title={facetKey}
-						column={table.getColumn(facetKey)}
-						options={facetOptions.map((w) => ({
-							value: w,
-							label: w,
-						}))}
-					/>
+					{
+						facet ?
+							<DataTableFacetedFilter
+								title={facet.facetKey}
+								column={table.getColumn(facet.facetKey)}
+								options={facet.facetOptions.map((w) => ({
+									value: w,
+									label: w,
+								}))}
+							/> : null
+					}
 					<DataTableViewOptions table={table} />
 				</div>
 				<Table className="w-full">
@@ -121,11 +127,11 @@ export const ClinicDatatable = <TData, TValue>({
 										{header.isPlaceholder
 											? null
 											: flexRender(
-													header.column.columnDef.header
-														?.toString()
-														.toUpperCase(),
-													header.getContext(),
-												)}
+												header.column.columnDef.header
+													?.toString()
+													.toUpperCase(),
+												header.getContext(),
+											)}
 									</TableHead>
 								))}
 							</TableRow>

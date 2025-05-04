@@ -26,3 +26,7 @@ export const WeekDays = [
 export type WeekDay = (typeof WeekDays)[number];
 
 export type StaffType = (typeof StaffTypes)[number];
+
+export const AppointmentStatuses = ["Scheduled", "Completed", "Missed", "Cancelled"] as const;
+
+export type AppointmentStatus = (typeof AppointmentStatuses)[number]

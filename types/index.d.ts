@@ -1,4 +1,4 @@
-import { Gender, PatientStatus } from './enums';
+import { AppointmentStatus, Gender, PatientStatus } from './enums';
 
 export interface Patient {
 	id: string;
@@ -26,4 +26,26 @@ export interface Staff {
 	working_days: WeekDay[];
 	type: StaffType;
 	kmc: string;
+}
+
+type Appointment = {
+	id: string;
+	treatment_id: string;
+	date: Date;
+	start_time: Date;
+	end_time: Date;
+	status: AppointmentStatus;
+	notes?: string;
+	visit_number: number;
+}
+
+type Treatment = {
+	id: string;
+	name: string;
+	description?: string;
+	appointments?: Appointment[];
+	patient_id: string;
+	doctor_id: string;
+	price: number;
+	duration: number;
 }
