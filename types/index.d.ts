@@ -1,5 +1,16 @@
 import { AppointmentStatus, Gender, PatientStatus } from './enums';
 
+export interface Vitals {
+	id: string;
+	patient_id: string;
+	temperature: number;
+	systolic_bp: number;
+	diastolic_bp: number;
+	pulse: number;
+	spo2: number;
+	recordedAt: string
+}
+
 export interface Patient {
 	id: string;
 	first_name: string;
@@ -13,6 +24,7 @@ export interface Patient {
 	insurance_provider?: string;
 	insurance_number?: string;
 	status: PatientStatus;
+	vitals: Vitals
 }
 
 export interface Staff {

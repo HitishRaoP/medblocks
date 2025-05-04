@@ -17,6 +17,17 @@ CREATE TABLE IF NOT EXISTS patient (
     status VARCHAR(15) CHECK (status IN ('Inpatient', 'Outpatient', 'Discharged', 'Emergency'))
 );
 
+CREATE TABLE IF NOT EXISTS vitals (
+    id TEXT PRIMARY KEY,
+    patient_id TEXT REFERENCES patient(id),
+    temperature NUMERIC,
+    systolic_bp INTEGER,
+    diastolic_bp INTEGER,
+    pulse INTEGER,
+    spo2 INTEGER,
+    recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Staff Table
 CREATE TABLE IF NOT EXISTS staff (
     id TEXT PRIMARY KEY,

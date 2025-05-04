@@ -1,13 +1,12 @@
 "use server";
 
 import { getDB } from "@/db/pglite";
-import { Results } from "@electric-sql/pglite";
 
-export async function getRecordFromId<T>(id: string, table: "patient" | "staff") {
+export async function getRecordFromId<T>(id: string, table: "patient" | "staff" | "vitals") {
     const QUERY = `
         SELECT *
         FROM ${table}
-        WHERE id = $1
+        WHERE ${table === 'vitals' ? "patient_id" : "id"} = $1
     `;
 
     try {

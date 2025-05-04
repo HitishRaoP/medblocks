@@ -1,56 +1,42 @@
-import React from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { PatientInfoCard } from './patient-info-card';
-import { getRecordFromId } from '@/actions/get-record-from-id';
-import { Patient } from '@/types';
-import { ProfileMini } from '../treatment/profile-mini';
+"use client"
 
-const PatientDetailsMainTabsList = [
-	{
-		name: 'Patient Information',
-		content: PatientInfoCard
-	},
-	{
-		name: 'Appointment History',
-	},
-];
-const employeeData = {
-	avatar: "/lovable-uploads/3e9cf7b5-b3f0-4575-b73d-0450f488cddf.png",
-	name: "Leslie Alexander",
-	isActive: true,
-	gender: "Female",
-	age: "32",
-	position: "Sr.Project Manager",
-	division: "Product & Development",
-	employeeId: "EMP-20241008-007",
-	email: "lesliealexander@mail.com",
-	address: "9428 Main Street, Apt 98, Springfield, United States",
-	phone: "+1 630 4924 9321",
-	dateApplied: "12/06/2023",
-	tags: [
-		{ label: "Project Manager", color: "purple" },
-		{ label: "Product", color: "green" },
-		{ label: "Development", color: "blue" },
-	]
-};
+import React from 'react';
+import { PatientInfoCard } from './patient-info-card';
+import { ProfileMini } from '../treatment/profile-mini';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { PatientAppointments } from './patient-appointments';
+import PatientVitals from './patient-vitals';
+import { useQuery } from '@tanstack/react-query';
+import { getRecordFromId } from '@/actions/get-record-from-id';
+import { Patient, Vitals } from '@/types';
+
 export const PatientDetailsMain = ({ id }: { id: string }) => {
 	return (
 		<div>
 			<ProfileMini id={id} user={'patient'} />
-			<Tabs defaultValue={PatientDetailsMainTabsList[0].name}>
-				<TabsList>
-					{PatientDetailsMainTabsList.map((t, i) => (
-						<TabsTrigger key={i} value={t.name}>
-							{t.name}
-						</TabsTrigger>
-					))}
-				</TabsList>
-				{PatientDetailsMainTabsList.map((t, i) => (
-					<TabsContent value={t.name} key={i}>
-						{t.content && <t.content {...employeeData} />}
-					</TabsContent>
-				))}
-			</Tabs>
+			<PatientVitals id={id} />
+			<div className='flex flex-col md:flex-row gap-4'>
+				<Card className='md:min-w-3xl'>
+					<CardHeader>
+						<CardTitle className='text-muted-foreground'>
+							Patient Information
+						</CardTitle>
+					</CardHeader>
+					<CardContent className='flex'>
+						<PatientInfoCard id={id} />
+					</CardContent>
+				</Card>
+				<Card className='w-full'>
+					<CardHeader>
+						<CardTitle className='text-muted-foreground'>
+							Patient Appointments
+						</CardTitle>
+					</CardHeader>
+					<CardContent className='flex'>
+						<PatientAppointments id={id} />
+					</CardContent>
+				</Card>
+			</div>
 		</div>
 	);
 };

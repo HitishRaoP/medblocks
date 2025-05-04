@@ -8,6 +8,14 @@ import { Patient, Staff } from '@/types'
 import { dateToAge } from '@/lib/dayjs'
 import { Calendar, User } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { PatientStatus } from '@/types/enums'
+
+const statusBgMap: Record<PatientStatus, string> = {
+    Inpatient: 'bg-blue-100 text-blue-800',
+    Outpatient: 'bg-lime-100 text-lime-800',
+    Discharged: 'bg-amber-100 text-amber-800',
+    Emergency: 'bg-pink-100 text-pink-800',
+};
 
 export const ProfileMini = ({
     id,
@@ -40,8 +48,7 @@ export const ProfileMini = ({
                     <div className="flex items-center gap-4">
                         <span className="text-base font-medium">{data?.first_name}</span>
                         {data?.status && (
-                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                <span className="h-1.5 w-1.5 rounded-full bg-green-600 mr-1.5"></span>
+                            <span className={cn("inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium", `${statusBgMap[data.status]}`)}>
                                 {data.status}
                             </span>
                         )}

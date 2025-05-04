@@ -3,7 +3,6 @@ import { Genders, PatientStatuses, StaffTypes, WeekDays, AppointmentStatus } fro
 import { getDB } from './pglite';
 import { Patient, Staff, Treatment } from '@/types';
 
-// Function to seed patients
 async function patients() {
     const db = await getDB();
     for (let i = 0; i < 10; i++) {
@@ -31,7 +30,31 @@ async function patients() {
     console.log('Seeded Patient records.');
 }
 
-// Function to seed staff (doctors)
+async function vitals() {
+    const db = await getDB();
+    const patientsResult = await db.query<Patient>(`SELECT id FROM patient`);
+    const patientIds = patientsResult.rows.map(row => row.id);
+
+    for (const patientId of patientIds) {
+        await db.query(
+            `INSERT INTO vitals (
+                id, patient_id, recorded_at, temperature, systolic_bp, diastolic_bp, pulse, spo2
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+            [
+                faker.string.uuid(),
+                patientId,
+                faker.date.recent().toISOString(),
+                parseFloat(faker.number.float({ min: 97, max: 100 }).toFixed(1)),
+                faker.number.int({ min: 100, max: 140 }),
+                faker.number.int({ min: 60, max: 90 }),
+                faker.number.int({ min: 60, max: 100 }),
+                faker.number.int({ min: 95, max: 100 }),
+            ]
+        );
+    }
+    console.log('Seeded Vitals records.');
+}
+
 async function staff() {
     const db = await getDB();
     for (let i = 0; i < 10; i++) {
@@ -56,7 +79,6 @@ async function staff() {
     console.log('Seeded Staff records.');
 }
 
-// Function to seed treatments (linked to patients and staff)
 async function treatments() {
     const db = await getDB();
     const patientsResult = await db.query<Patient>(`SELECT id FROM patient`);
@@ -80,18 +102,16 @@ async function treatments() {
                 patientId,
                 doctorId,
                 parseFloat(faker.commerce.price()),
-                Math.floor(Math.random() * 120) + 30, // duration in minutes
+                Math.floor(Math.random() * 120) + 30,
             ]
         );
     }
     console.log('Seeded Treatment records.');
 }
 
-// Function to seed appointments (linked to treatments)
 async function appointments() {
     const db = await getDB();
     const treatmentsResult = await db.query<Treatment>(`SELECT id FROM treatment`);
-
     const treatmentsIds = treatmentsResult.rows.map((row) => row.id);
 
     for (let i = 0; i < 20; i++) {
@@ -118,9 +138,8 @@ async function appointments() {
     console.log('Seeded Appointment records.');
 }
 
-// Main function to call all seed functions
 async function seed() {
-    await Promise.all([patients(), staff(), treatments(), appointments()]);
+    await Promise.all([await patients(), await vitals(), await staff(), await treatments(), await appointments()]);
 }
 
 seed();
