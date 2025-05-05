@@ -1,213 +1,179 @@
-import * as LabelPrimitive from "@radix-ui/react-label";
-import { Slot } from "@radix-ui/react-slot";
-import * as React from "react";
-import {
-  Controller,
-  type ControllerProps,
-  type FieldPath,
-  type FieldValues,
-  FormProvider,
-  useFormContext,
-  useFormState,
-} from "react-hook-form";
-import { z } from "zod";
+'use client';
 
-import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
+import * as React from 'react';
+import * as LabelPrimitive from '@radix-ui/react-label';
+import { Slot } from '@radix-ui/react-slot';
+import {
+	Controller,
+	FormProvider,
+	useFormContext,
+	type ControllerProps,
+	type FieldPath,
+	type FieldValues,
+} from 'react-hook-form';
+
+import { cn } from '@/lib/utils';
+import { Label } from '@/components/ui/label';
 
 const Form = FormProvider;
 
-// Create a context to store the schema
-const FormSchemaContext = React.createContext<z.ZodObject<any> | null>(null);
-
-// Custom hook to access the schema
-function useSchema() {
-  return React.useContext(FormSchemaContext);
-}
-
-// Schema provider component
-function FormSchemaProvider({
-  schema,
-  children,
-}: {
-  schema: z.ZodObject<any>;
-  children: React.ReactNode;
-}) {
-  return (
-    <FormSchemaContext.Provider value={schema}>
-      {children}
-    </FormSchemaContext.Provider>
-  );
-}
-
 type FormFieldContextValue<
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+	TFieldValues extends FieldValues = FieldValues,
+	TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > = {
-  name: TName;
+	name: TName;
 };
 
 const FormFieldContext = React.createContext<FormFieldContextValue>(
-  {} as FormFieldContextValue,
+	{} as FormFieldContextValue,
 );
 
 const FormField = <
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+	TFieldValues extends FieldValues = FieldValues,
+	TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
-  ...props
+	...props
 }: ControllerProps<TFieldValues, TName>) => {
-  return (
-    <FormFieldContext.Provider value={{ name: props.name }}>
-      <Controller {...props} />
-    </FormFieldContext.Provider>
-  );
+	return (
+		<FormFieldContext.Provider value={{ name: props.name }}>
+			<Controller {...props} />
+		</FormFieldContext.Provider>
+	);
 };
 
 const useFormField = () => {
-  const fieldContext = React.useContext(FormFieldContext);
-  const itemContext = React.useContext(FormItemContext);
-  const { getFieldState } = useFormContext();
-  const formState = useFormState({ name: fieldContext.name });
-  const fieldState = getFieldState(fieldContext.name, formState);
+	const fieldContext = React.useContext(FormFieldContext);
+	const itemContext = React.useContext(FormItemContext);
+	const { getFieldState, formState } = useFormContext();
 
-  if (!fieldContext) {
-    throw new Error("useFormField should be used within <FormField>");
-  }
+	const fieldState = getFieldState(fieldContext.name, formState);
 
-  const { id } = itemContext;
+	if (!fieldContext) {
+		throw new Error('useFormField should be used within <FormField>');
+	}
 
-  return {
-    id,
-    name: fieldContext.name,
-    formItemId: `${id}-form-item`,
-    formDescriptionId: `${id}-form-item-description`,
-    formMessageId: `${id}-form-item-message`,
-    ...fieldState,
-  };
+	const { id } = itemContext;
+
+	return {
+		id,
+		name: fieldContext.name,
+		formItemId: `${id}-form-item`,
+		formDescriptionId: `${id}-form-item-description`,
+		formMessageId: `${id}-form-item-message`,
+		...fieldState,
+	};
 };
 
 type FormItemContextValue = {
-  id: string;
+	id: string;
 };
 
 const FormItemContext = React.createContext<FormItemContextValue>(
-  {} as FormItemContextValue,
+	{} as FormItemContextValue,
 );
 
-function FormItem({ className, ...props }: React.ComponentProps<"div">) {
-  const id = React.useId();
+const FormItem = React.forwardRef<
+	HTMLDivElement,
+	React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => {
+	const id = React.useId();
 
-  return (
-    <FormItemContext.Provider value={{ id }}>
-      <div
-        data-slot="form-item"
-        className={cn("grid gap-2 w-full", className)}
-        {...props}
-      />
-    </FormItemContext.Provider>
-  );
-}
+	return (
+		<FormItemContext.Provider value={{ id }}>
+			<div ref={ref} className={cn('w-full space-y-2', className)} {...props} />
+		</FormItemContext.Provider>
+	);
+});
+FormItem.displayName = 'FormItem';
 
-function FormLabel({
-  className,
-  ...props
-}: React.ComponentProps<typeof LabelPrimitive.Root>) {
-  const { error, formItemId } = useFormField();
-  const fieldContext = React.useContext(FormFieldContext);
-  const schema = useSchema();
+const FormLabel = React.forwardRef<
+	React.ElementRef<typeof LabelPrimitive.Root>,
+	React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
+>(({ className, ...props }, ref) => {
+	const { error, formItemId } = useFormField();
 
-  // Check if the field is required based on the schema
-  const isRequired =
-    schema && fieldContext?.name
-      ? isFieldRequired(schema, fieldContext.name as string)
-      : false;
-  console.log(isRequired);
+	return (
+		<Label
+			ref={ref}
+			className={cn(error && 'text-destructive', className)}
+			htmlFor={formItemId}
+			{...props}
+		/>
+	);
+});
+FormLabel.displayName = 'FormLabel';
 
-  return (
-    <Label
-      data-slot="form-label"
-      data-error={!!error}
-      className={cn("data-[error=true]:text-destructive-foreground", className)}
-      htmlFor={formItemId}
-      {...props}
-    >
-      {props.children}
-      {isRequired && <span className="text-destructive ml-1">*</span>}
-    </Label>
-  );
-}
+const FormControl = React.forwardRef<
+	React.ElementRef<typeof Slot>,
+	React.ComponentPropsWithoutRef<typeof Slot>
+>(({ ...props }, ref) => {
+	const { error, formItemId, formDescriptionId, formMessageId } =
+		useFormField();
 
-function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
-  const { error, formItemId, formDescriptionId, formMessageId } =
-    useFormField();
+	return (
+		<Slot
+			ref={ref}
+			id={formItemId}
+			aria-describedby={
+				!error
+					? `${formDescriptionId}`
+					: `${formDescriptionId} ${formMessageId}`
+			}
+			aria-invalid={!!error}
+			{...props}
+		/>
+	);
+});
+FormControl.displayName = 'FormControl';
 
-  return (
-    <Slot
-      data-slot="form-control"
-      id={formItemId}
-      aria-describedby={
-        !error
-          ? `${formDescriptionId}`
-          : `${formDescriptionId} ${formMessageId}`
-      }
-      aria-invalid={!!error}
-      {...props}
-    />
-  );
-}
+const FormDescription = React.forwardRef<
+	HTMLParagraphElement,
+	React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, ...props }, ref) => {
+	const { formDescriptionId } = useFormField();
 
-function FormDescription({ className, ...props }: React.ComponentProps<"p">) {
-  const { formDescriptionId } = useFormField();
+	return (
+		<p
+			ref={ref}
+			id={formDescriptionId}
+			className={cn('text-muted-foreground text-[0.8rem]', className)}
+			{...props}
+		/>
+	);
+});
+FormDescription.displayName = 'FormDescription';
 
-  return (
-    <p
-      data-slot="form-description"
-      id={formDescriptionId}
-      className={cn("text-muted-foreground text-sm", className)}
-      {...props}
-    />
-  );
-}
+const FormMessage = React.forwardRef<
+	HTMLParagraphElement,
+	React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, children, ...props }, ref) => {
+	const { error, formMessageId } = useFormField();
+	const body = error ? String(error?.message ?? '') : children;
 
-function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
-  const { error, formMessageId } = useFormField();
-  const body = error ? String(error?.message ?? "") : props.children;
+	if (!body) {
+		return null;
+	}
 
-  if (!body) {
-    return null;
-  }
-
-  return (
-    <p
-      data-slot="form-message"
-      id={formMessageId}
-      className={cn("text-destructive-foreground text-sm", className)}
-      {...props}
-    >
-      {body}
-    </p>
-  );
-}
-
-function isFieldRequired(schema: z.ZodObject<any>, fieldName: string): boolean {
-  const fieldSchema = schema.shape?.[fieldName];
-
-  if (!fieldSchema) return false;
-
-  const test = fieldSchema.safeParse(undefined);
-  return !test.success;
-}
+	return (
+		<p
+			ref={ref}
+			id={formMessageId}
+			className={cn('text-destructive text-[0.8rem] font-medium', className)}
+			{...props}
+		>
+			{body}
+		</p>
+	);
+});
+FormMessage.displayName = 'FormMessage';
 
 export {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  FormSchemaProvider,
-  useFormField,
-  useSchema,
+	useFormField,
+	Form,
+	FormItem,
+	FormLabel,
+	FormControl,
+	FormDescription,
+	FormMessage,
+	FormField,
 };

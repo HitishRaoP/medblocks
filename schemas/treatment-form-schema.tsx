@@ -1,18 +1,18 @@
-import { z } from "zod";
+import { AppointmentRequest } from "@/types";
+import { AppointmentStatus } from "@/types/enums";
+import { z, ZodType } from "zod";
 
 const appointmentSchema = z.object({
     date: z.date({ required_error: "Appointment date is required" }),
-    startTime: z.date({ required_error: "Start time is required" }),
-    endTime: z.date({ required_error: "End time is required" }),
-    status: z.enum(["Scheduled", "Completed", "Missed", "Cancelled"], {
-        required_error: "Status is required"
-    }).default("Scheduled"),
+    start_time: z.string({ required_error: "Start time is required" }),
+    end_time: z.string({ required_error: "End time is required" }),
+    status: z.custom<AppointmentStatus>(),
     notes: z.string().max(500).optional(),
-    visitNumber: z
+    visit_number: z
         .number({ invalid_type_error: "Visit number must be a number" })
         .int({ message: "Visit number must be an integer" })
         .positive({ message: "Visit number must be greater than 0" }),
-});
+}) satisfies ZodType<AppointmentRequest>;
 
 export const treatmentFormSchema = z.object({
     name: z

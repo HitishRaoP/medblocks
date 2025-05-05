@@ -1,6 +1,5 @@
 'use client';
 
-import { LucideIcon, } from 'lucide-react';
 import {
 	ColumnDef,
 	ColumnFiltersState,
@@ -27,7 +26,7 @@ import { DataTableFacetedFilter } from './data-table-faceted-filter';
 import { Input } from './input';
 
 interface ClinicDatatableProps<TData, TValue> {
-	icon: React.JSX.Element
+	icon: React.JSX.Element;
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
 	title: string;
@@ -35,11 +34,11 @@ interface ClinicDatatableProps<TData, TValue> {
 	searchKey: string;
 	searchPlaceholder?: string;
 	redirectPath?: ({ row }: { row?: Row<TData> }) => string;
-	addButton?: React.JSX.Element
+	addButton?: React.JSX.Element;
 	facet?: {
 		facetKey: string;
 		facetOptions: string[];
-	}
+	};
 }
 
 export const ClinicDatatable = <TData, TValue>({
@@ -52,7 +51,7 @@ export const ClinicDatatable = <TData, TValue>({
 	searchPlaceholder,
 	redirectPath,
 	addButton,
-	facet
+	facet,
 }: ClinicDatatableProps<TData, TValue>) => {
 	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
 		[],
@@ -82,9 +81,7 @@ export const ClinicDatatable = <TData, TValue>({
 						{count > 0 ? 's' : ''}
 					</h1>
 				</div>
-				{
-					addButton ? addButton : null
-				}
+				{addButton ? addButton : null}
 			</div>
 
 			{/**
@@ -102,17 +99,16 @@ export const ClinicDatatable = <TData, TValue>({
 						}
 						className="max-w-sm"
 					/>
-					{
-						facet ?
-							<DataTableFacetedFilter
-								title={facet.facetKey}
-								column={table.getColumn(facet.facetKey)}
-								options={facet.facetOptions.map((w) => ({
-									value: w,
-									label: w,
-								}))}
-							/> : null
-					}
+					{facet ? (
+						<DataTableFacetedFilter
+							title={facet.facetKey}
+							column={table.getColumn(facet.facetKey)}
+							options={facet.facetOptions.map((w) => ({
+								value: w,
+								label: w,
+							}))}
+						/>
+					) : null}
 					<DataTableViewOptions table={table} />
 				</div>
 				<Table className="w-full">
@@ -127,11 +123,11 @@ export const ClinicDatatable = <TData, TValue>({
 										{header.isPlaceholder
 											? null
 											: flexRender(
-												header.column.columnDef.header
-													?.toString()
-													.toUpperCase(),
-												header.getContext(),
-											)}
+													header.column.columnDef.header
+														?.toString()
+														.toUpperCase(),
+													header.getContext(),
+												)}
 									</TableHead>
 								))}
 							</TableRow>

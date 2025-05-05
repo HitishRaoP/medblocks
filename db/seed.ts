@@ -109,16 +109,32 @@ async function treatments() {
     console.log('Seeded Treatment records.');
 }
 
-async function appointments() {
+export async function appointments() {
     const db = await getDB();
-    const treatmentsResult = await db.query<Treatment>(`SELECT id FROM treatment`);
-    const treatmentsIds = treatmentsResult.rows.map((row) => row.id);
+    const treatmentsResult = await db.query<{ id: string }>(`SELECT id FROM treatment`);
+    const treatmentIds = treatmentsResult.rows.map((row) => row.id);
+
+    const visitTracker: Record<string, Set<number>> = {};
 
     for (let i = 0; i < 20; i++) {
-        const treatmentId = faker.helpers.arrayElement(treatmentsIds);
+        const treatmentId = faker.helpers.arrayElement(treatmentIds);
         const date = faker.date.soon();
         const startTime = faker.date.anytime();
         const endTime = faker.date.future();
+
+        if (!visitTracker[treatmentId]) {
+            visitTracker[treatmentId] = new Set();
+        }
+        let visitNumber: number;
+        let attempts = 0;
+        do {
+            visitNumber = Math.floor(Math.random() * 100) + 1;
+            attempts++;
+        } while (visitTracker[treatmentId].has(visitNumber) && attempts < 10);
+
+        if (visitTracker[treatmentId].has(visitNumber)) continue;
+
+        visitTracker[treatmentId].add(visitNumber);
 
         await db.query(
             `INSERT INTO appointment (
@@ -127,16 +143,18 @@ async function appointments() {
             [
                 faker.string.uuid(),
                 treatmentId,
-                date.toISOString().split('T')[0], // Date in yyyy-mm-dd format
-                startTime.toISOString().split('T')[1].split('.')[0], // Time in HH:mm:ss format
-                endTime.toISOString().split('T')[1].split('.')[0], // Time in HH:mm:ss format
+                date.toISOString().split('T')[0],
+                startTime.toISOString().split('T')[1].split('.')[0],
+                endTime.toISOString().split('T')[1].split('.')[0],
                 faker.helpers.arrayElement(['Scheduled', 'Completed', 'Cancelled']),
-                Math.floor(Math.random() * 5) + 1
+                visitNumber
             ]
         );
     }
+
     console.log('Seeded Appointment records.');
 }
+
 
 async function seed() {
     await Promise.all([await patients(), await vitals(), await staff(), await treatments(), await appointments()]);

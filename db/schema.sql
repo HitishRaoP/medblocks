@@ -1,5 +1,5 @@
 -- Create ENUM for appointment status
-CREATE TYPE appointment_status AS ENUM ('Scheduled', 'Completed', 'Cancelled');
+CREATE TYPE  appointment_status AS ENUM ('Scheduled', 'Completed', 'Cancelled');
 
 -- Patient Table
 CREATE TABLE IF NOT EXISTS patient (
@@ -59,10 +59,11 @@ CREATE TABLE IF NOT EXISTS appointment (
     id TEXT PRIMARY KEY,
     treatment_id TEXT NOT NULL REFERENCES treatment(id) ON DELETE CASCADE,
     date DATE NOT NULL,
-    start_time TIME NOT NULL,
-    end_time TIME NOT NULL,
+    start_time TEXT NOT NULL,
+    end_time TEXT NOT NULL,
     status appointment_status NOT NULL DEFAULT 'Scheduled',
     notes TEXT,
     visit_number INTEGER NOT NULL CHECK (visit_number > 0),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(treatment_id, visit_number)
 );

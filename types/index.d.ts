@@ -8,7 +8,7 @@ export interface Vitals {
 	diastolic_bp: number;
 	pulse: number;
 	spo2: number;
-	recordedAt: string
+	recordedAt: string;
 }
 
 export interface Patient {
@@ -24,7 +24,7 @@ export interface Patient {
 	insurance_provider?: string;
 	insurance_number?: string;
 	status: PatientStatus;
-	vitals: Vitals
+	vitals: Vitals;
 }
 
 export interface Staff {
@@ -44,12 +44,12 @@ export type Appointment = {
 	id: string;
 	treatment_id: string;
 	date: Date;
-	start_time: Date;
-	end_time: Date;
+	start_time: string;
+	end_time: string;
 	status: AppointmentStatus;
 	notes?: string;
 	visit_number: number;
-}
+};
 
 export type Treatment = {
 	id: string;
@@ -60,6 +60,12 @@ export type Treatment = {
 	doctor_id: string;
 	price: number;
 	duration: number;
-}
+};
 
-export type AppointmentExtended = (Appointment & { staff: Staff, patient: Patient, treatment: Treatment })
+export type AppointmentExtended = Appointment & {
+	staff: Staff;
+	patient: Patient;
+	treatment: Treatment;
+};
+
+export type AppointmentRequest = Omit<Appointment, 'id' | 'treatment_id'>;

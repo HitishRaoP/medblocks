@@ -1,21 +1,13 @@
 'use client';
 
-import {
-	BadgeCheck,
-	Bell,
-	ChevronsUpDown,
-	CreditCard,
-	LogOut,
-} from 'lucide-react';
+import { ChevronsUpDown, LogOut } from 'lucide-react';
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
-	DropdownMenuGroup,
 	DropdownMenuItem,
 	DropdownMenuLabel,
-	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { signOut } from 'supertokens-web-js/recipe/emailpassword';
@@ -60,11 +52,14 @@ export function UserButton() {
 				align="end"
 				sideOffset={4}
 			>
-				<DropdownMenuItem className='flex items-center justify-between' onClick={() => signOut()}>
+				<DropdownMenuItem
+					className="flex items-center justify-between"
+					onClick={() => signOut()}
+				>
 					Log out
 					<LogOut className="mr-2 h-4 w-4" />
 				</DropdownMenuItem>
-				<DropdownMenuLabel className='flex items-center justify-between'>
+				<DropdownMenuLabel className="flex items-center justify-between">
 					Theme
 					<ThemeToggle />
 				</DropdownMenuLabel>
