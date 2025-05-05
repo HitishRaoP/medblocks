@@ -2,12 +2,24 @@
 
 import { getDB } from "@/db/pglite";
 
-export async function getRecordFromId<T>(id: string, table: "patient" | "staff" | "vitals") {
-    const QUERY = `
-        SELECT *
-        FROM ${table}
-        WHERE ${table === 'vitals' ? "patient_id" : "id"} = $1
-    `;
+type Table = "patient" | "staff" | "vitals" | "appointment"
+
+const columns: Record<
+    Table,
+    string
+> = {
+    patient: "id",
+    staff: "id",
+    vitals: "patient_id",
+    appointment: "treatment_id",
+};
+
+export async function getRecordFromId<T>(
+    id: string,
+    table: Table
+) {
+    const column = columns[table];
+    const QUERY = `SELECT * FROM ${table} WHERE ${column} = $1`;
 
     try {
         const db = await getDB();

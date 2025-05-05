@@ -2,7 +2,7 @@ import { AppointmentRequest } from "@/types";
 import { AppointmentStatus } from "@/types/enums";
 import { z, ZodType } from "zod";
 
-const appointmentSchema = z.object({
+export const treatmentAppointmentSchema = z.object({
     date: z.date({ required_error: "Appointment date is required" }),
     start_time: z.string({ required_error: "Start time is required" }),
     end_time: z.string({ required_error: "End time is required" }),
@@ -25,7 +25,7 @@ export const treatmentFormSchema = z.object({
         .optional(),
 
     appointments: z
-        .array(appointmentSchema)
+        .array(treatmentAppointmentSchema)
         .optional(),
 
     patientId: z

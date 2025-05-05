@@ -3,6 +3,7 @@ import { ClinicDatatable } from '../ui/clinic-data-table';
 import { Appointment } from '@/types';
 import { AppointmentColumns } from './appointment-columns';
 import { Calendar } from 'lucide-react';
+import { AppointmentAddButton } from './appointment-add-button';
 
 export const AppointmentMain = ({
 	appointments,
@@ -19,6 +20,7 @@ export const AppointmentMain = ({
 			title={'Appointment'}
 			count={count}
 			searchKey={'status'}
+			addButton={<AppointmentAddButton />}
 		/>
 	);
 };
