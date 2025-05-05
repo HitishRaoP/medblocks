@@ -145,7 +145,7 @@ export const ClinicDatatable = <TData, TValue>({
 								return (
 									<TableRow
 										{...(path ? { onClick: () => redirect(path) } : {})}
-										className="cursor-pointer border"
+										className={`${redirectPath ? 'cursor-pointer' : ''} border`}
 										key={row.id}
 										data-state={row.getIsSelected() && 'selected'}
 									>

@@ -62,4 +62,4 @@ export type Treatment = {
 	duration: number;
 }
 
-export type AppointmentExtended = (Appointment & { staff: Staff, patient: Patient, treatment: Treatment })[]
+export type AppointmentExtended = (Appointment & { staff: Staff, patient: Patient, treatment: Treatment })

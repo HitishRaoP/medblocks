@@ -1,9 +1,14 @@
+"use client"
+
 import React from 'react'
 import { Card, CardContent, CardFooter } from '../ui/card';
 import { ArrowRight, Calendar, Stethoscope, User, Users } from 'lucide-react';
 import Link from 'next/link';
 import { DashboardChart } from './dashboard-chart';
-import { DashboardAppointments } from './dashboard-appointments';
+import { useQuery } from '@tanstack/react-query';
+import { getAllRecords } from '@/actions/get-all-records';
+import { AppointmentExtended } from '@/types';
+import { Appointments } from '../common/appointments';
 
 type Dashboard = {
     "Total Patients": number;
@@ -27,6 +32,13 @@ const links: Record<keyof Omit<Dashboard, "Graph">, string> = {
 }
 
 export const DashboardMain = ({ dashboard }: { dashboard: Omit<Dashboard, "Graph"> }) => {
+    const { data } = useQuery({
+        queryKey: ['Appointments'],
+        queryFn: () => getAllRecords<AppointmentExtended>('appointment')
+    });
+
+    console.log(data);
+
     return (
         <div>
             <div className='flex gap-4'>
@@ -54,7 +66,7 @@ export const DashboardMain = ({ dashboard }: { dashboard: Omit<Dashboard, "Graph
             </div>
             <div className='flex'>
                 <DashboardChart />
-                <DashboardAppointments />
+                <Appointments role='staff' appointments={data?.data as AppointmentExtended[]} />
             </div>
         </div>
     )

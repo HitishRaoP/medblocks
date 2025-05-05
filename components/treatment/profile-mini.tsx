@@ -6,8 +6,8 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { useQuery } from '@tanstack/react-query'
 import { Patient, Staff } from '@/types'
 import { dateToAge } from '@/lib/dayjs'
-import { Calendar, User } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { Calendar, Clock4, Stethoscope, Timer, User } from 'lucide-react'
+import { cn, text } from '@/lib/utils'
 import { PatientStatus } from '@/types/enums'
 
 const statusBgMap: Record<PatientStatus, string> = {
@@ -54,14 +54,28 @@ export const ProfileMini = ({
                         )}
                     </div>
                     <div className="flex gap-4 mt-1 text-sm text-gray-500 items-center">
-                        <div className="flex items-center gap-1">
-                            <User className="h-4 w-4 text-gray-400" />
-                            <span>{data?.gender}</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                            <Calendar className="h-4 w-4 text-gray-400" />
-                            <span>{age}</span>
-                        </div>
+                        {
+                            user === 'patient' ?
+                                <div className="flex items-center gap-1">
+                                    <User className="h-4 w-4 text-gray-400" />
+                                    <span>{data?.gender}</span>
+                                </div> :
+                                <div className="flex items-center gap-1">
+                                    <Stethoscope className="h-4 w-4 text-gray-400" />
+                                    <span>{data?.specialization}</span>
+                                </div>
+                        }
+                        {
+                            user === 'patient' ?
+                                <div className="flex items-center gap-1">
+                                    <Calendar className="h-4 w-4 text-gray-400" />
+                                    <span>{age}</span>
+                                </div> :
+                                <div className="flex items-center gap-1">
+                                    <Clock4 className="h-4 w-4 text-gray-400" />
+                                    <span>{text(data?.type)}</span>
+                                </div>
+                        }
                     </div>
                 </div>
             )}

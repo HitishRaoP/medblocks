@@ -55,17 +55,17 @@ export function UserButton() {
 				</div>
 				<ChevronsUpDown className="ml-auto size-4" />
 			</DropdownMenuTrigger>
-
 			<DropdownMenuContent
-				className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+				className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-xl"
 				align="end"
 				sideOffset={4}
 			>
-				<DropdownMenuItem onClick={() => signOut()}>
-					<LogOut className="mr-2 h-4 w-4" />
+				<DropdownMenuItem className='flex items-center justify-between' onClick={() => signOut()}>
 					Log out
+					<LogOut className="mr-2 h-4 w-4" />
 				</DropdownMenuItem>
-				<DropdownMenuLabel>
+				<DropdownMenuLabel className='flex items-center justify-between'>
+					Theme
 					<ThemeToggle />
 				</DropdownMenuLabel>
 			</DropdownMenuContent>

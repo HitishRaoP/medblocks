@@ -7,10 +7,16 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { PatientAppointments } from './patient-appointments';
 import PatientVitals from './patient-vitals';
 import { useQuery } from '@tanstack/react-query';
-import { getRecordFromId } from '@/actions/get-record-from-id';
-import { Patient, Vitals } from '@/types';
+import { getAppointmentsForPatient } from '@/actions/get-appointments-for-patient';
+import { Appointments } from '../common/appointments';
+import { AppointmentExtended } from '@/types';
 
 export const PatientDetailsMain = ({ id }: { id: string }) => {
+	const { data } = useQuery({
+		queryKey: ['Appointments'],
+		queryFn: () => getAppointmentsForPatient(id)
+	});
+
 	return (
 		<div>
 			<ProfileMini id={id} user={'patient'} />
@@ -26,16 +32,7 @@ export const PatientDetailsMain = ({ id }: { id: string }) => {
 						<PatientInfoCard id={id} />
 					</CardContent>
 				</Card>
-				<Card className='w-full'>
-					<CardHeader>
-						<CardTitle className='text-muted-foreground'>
-							Patient Appointments
-						</CardTitle>
-					</CardHeader>
-					<CardContent className='flex'>
-						<PatientAppointments id={id} />
-					</CardContent>
-				</Card>
+				<Appointments role='patient' appointments={data as AppointmentExtended[]} />
 			</div>
 		</div>
 	);

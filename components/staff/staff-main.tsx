@@ -1,3 +1,5 @@
+"use client"
+
 import { Staff } from '@/types';
 import React from 'react';
 import { ClinicDatatable } from '../ui/clinic-data-table';
@@ -27,6 +29,7 @@ export const StaffMain = ({
 				facetOptions: StaffTypes.map((e) => e)
 			}}
 			addButton={<TreatmentAddButton />}
+			redirectPath={({ row }) => `staff-list/${row?.getValue('id')}`}
 		/>
 	);
 };
