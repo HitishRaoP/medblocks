@@ -6,7 +6,9 @@ import React from 'react';
 const AppointmentPage = async () => {
 	const response = await getAllRecords<Appointment>('appointment');
 
-	return <AppointmentMain appointments={response.data} count={response.count} />;
+	return (
+		<AppointmentMain appointments={response.data} count={response.count} />
+	);
 };
 
 export default AppointmentPage;

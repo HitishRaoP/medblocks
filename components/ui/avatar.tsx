@@ -39,7 +39,7 @@ const colors = [
 	'from-indigo-100 to-purple-200',
 	'from-lime-100 to-emerald-200',
 	'from-sky-100 to-sky-300',
-	'from-violet-100 to-indigo-200'
+	'from-violet-100 to-indigo-200',
 ];
 const gradient = colors[Math.floor(Math.random() * colors.length)];
 
@@ -51,7 +51,7 @@ const AvatarFallback = React.forwardRef<
 		ref={ref}
 		className={cn(
 			'bg-muted flex h-full w-full items-center justify-center rounded-full',
-			`rounded-full text-slate-700 font-semibold bg-gradient-to-r ${gradient}`,
+			`rounded-full bg-gradient-to-r font-semibold text-slate-700 ${gradient}`,
 			className,
 		)}
 		{...props}

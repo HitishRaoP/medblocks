@@ -10,5 +10,5 @@ export function capitalize(val: string) {
 }
 
 export function text(val: string) {
-	return capitalize(val).replace('_', '-')
+	return capitalize(val).replace('_', '-');
 }

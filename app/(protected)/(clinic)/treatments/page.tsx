@@ -4,7 +4,7 @@ import { Treatment } from '@/types';
 import React from 'react';
 
 const TreatmentsPage = async () => {
-	const response = await getAllRecords<Treatment>('treatment')
+	const response = await getAllRecords<Treatment>('treatment');
 
 	return <TreatmentMain treatments={response.data} count={response.count} />;
 };

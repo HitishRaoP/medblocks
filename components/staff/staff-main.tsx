@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import { Staff } from '@/types';
 import React from 'react';
@@ -26,7 +26,7 @@ export const StaffMain = ({
 			searchPlaceholder="Doctor"
 			facet={{
 				facetKey: 'type',
-				facetOptions: StaffTypes.map((e) => e)
+				facetOptions: StaffTypes.map((e) => e),
 			}}
 			addButton={<TreatmentAddButton />}
 			redirectPath={({ row }) => `staff-list/${row?.getValue('id')}`}

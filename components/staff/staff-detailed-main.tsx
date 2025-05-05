@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import React from 'react';
 import { ProfileMini } from '../treatment/profile-mini';
@@ -10,27 +10,30 @@ import { getAppointmentsForStaff } from '@/actions/get-appointments-for-staff';
 import { StaffInfoCard } from './staff-info-card';
 
 export const StaffDetailedMain = ({ id }: { id: string }) => {
-    const { data } = useQuery({
-        queryKey: ['Appointments'],
-        queryFn: () => getAppointmentsForStaff(id)
-    });
+	const { data } = useQuery({
+		queryKey: ['Appointments'],
+		queryFn: () => getAppointmentsForStaff(id),
+	});
 
-    return (
-        <div>
-            <ProfileMini id={id} user={'staff'} />
-            <div className='flex flex-col md:flex-row gap-4'>
-                <Card className='md:min-w-3xl'>
-                    <CardHeader>
-                        <CardTitle className='text-muted-foreground'>
-                            Patient Information
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent className='flex'>
-                        <StaffInfoCard id={id} />
-                    </CardContent>
-                </Card>
-                <Appointments role='staff' appointments={data as AppointmentExtended[]} />
-            </div>
-        </div>
-    );
+	return (
+		<div>
+			<ProfileMini id={id} user={'staff'} />
+			<div className="flex flex-col gap-4 md:flex-row">
+				<Card className="md:min-w-3xl">
+					<CardHeader>
+						<CardTitle className="text-muted-foreground">
+							Patient Information
+						</CardTitle>
+					</CardHeader>
+					<CardContent className="flex">
+						<StaffInfoCard id={id} />
+					</CardContent>
+				</Card>
+				<Appointments
+					role="staff"
+					appointments={data as AppointmentExtended[]}
+				/>
+			</div>
+		</div>
+	);
 };
