@@ -1,7 +1,6 @@
 'use client';
 
-import { Plus, Users } from 'lucide-react';
-import { Button } from './button';
+import { LucideIcon, } from 'lucide-react';
 import {
 	ColumnDef,
 	ColumnFiltersState,
@@ -26,9 +25,9 @@ import { redirect } from 'next/navigation';
 import { DataTableViewOptions } from './data-table-view-options';
 import { DataTableFacetedFilter } from './data-table-faceted-filter';
 import { Input } from './input';
-import { CopyButton } from '../root/copy-button';
 
 interface ClinicDatatableProps<TData, TValue> {
+	icon: React.JSX.Element
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
 	title: string;
@@ -44,6 +43,7 @@ interface ClinicDatatableProps<TData, TValue> {
 }
 
 export const ClinicDatatable = <TData, TValue>({
+	icon,
 	data,
 	count,
 	title,
@@ -76,7 +76,7 @@ export const ClinicDatatable = <TData, TValue>({
 			 */}
 			<div className="mb-6 flex items-center justify-between rounded-lg">
 				<div className="flex items-center gap-2">
-					<Users className="bg-muted rounded-md p-1 shadow" size={34} />
+					<div className="bg-muted rounded-md p-1 shadow">{icon}</div>
 					<h1 className="text-xl font-semibold">
 						{count} {title}
 						{count > 0 ? 's' : ''}

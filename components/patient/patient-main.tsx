@@ -4,6 +4,7 @@ import { Patient } from '@/types';
 import { PatientColumns } from './patient-columns';
 import { ClinicDatatable } from '../ui/clinic-data-table';
 import { PatientStatuses } from '@/types/enums';
+import { User } from 'lucide-react';
 
 export const PatientMain = ({
 	patients,
@@ -14,6 +15,7 @@ export const PatientMain = ({
 }) => {
 	return (
 		<ClinicDatatable
+			icon={<User />}
 			columns={PatientColumns}
 			data={patients}
 			title={'Patient'}

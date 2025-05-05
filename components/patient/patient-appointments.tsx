@@ -7,7 +7,6 @@ import { ScrollArea } from '../ui/scroll-area';
 import {
     Timeline,
     TimelineContent,
-    TimelineDate,
     TimelineHeader,
     TimelineIndicator,
     TimelineItem,
@@ -15,8 +14,9 @@ import {
     TimelineTitle,
 } from "@/components/ui/timeline"
 import { Badge } from '../ui/badge';
-import { dateToDOB, timeTo12Hour } from '@/lib/dayjs';
+import { dateToDOB } from '@/lib/dayjs';
 import {cn} from "@/lib/utils"
+import { AppointmentStatus } from '@/types/enums';
 
 const statusBgMap: Record<AppointmentStatus, string> = {
     Scheduled: 'bg-blue-100 text-blue-700',

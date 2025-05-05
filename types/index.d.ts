@@ -40,7 +40,7 @@ export interface Staff {
 	kmc: string;
 }
 
-type Appointment = {
+export type Appointment = {
 	id: string;
 	treatment_id: string;
 	date: Date;
@@ -51,7 +51,7 @@ type Appointment = {
 	visit_number: number;
 }
 
-type Treatment = {
+export type Treatment = {
 	id: string;
 	name: string;
 	description?: string;
@@ -61,3 +61,5 @@ type Treatment = {
 	price: number;
 	duration: number;
 }
+
+export type AppointmentExtended = (Appointment & { staff: Staff, patient: Patient, treatment: Treatment })[]

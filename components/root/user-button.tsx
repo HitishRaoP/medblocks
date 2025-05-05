@@ -61,21 +61,6 @@ export function UserButton() {
 				align="end"
 				sideOffset={4}
 			>
-				<DropdownMenuGroup>
-					<DropdownMenuItem>
-						<BadgeCheck className="mr-2 h-4 w-4" />
-						Account
-					</DropdownMenuItem>
-					<DropdownMenuItem>
-						<CreditCard className="mr-2 h-4 w-4" />
-						Billing
-					</DropdownMenuItem>
-					<DropdownMenuItem>
-						<Bell className="mr-2 h-4 w-4" />
-						Notifications
-					</DropdownMenuItem>
-				</DropdownMenuGroup>
-				<DropdownMenuSeparator />
 				<DropdownMenuItem onClick={() => signOut()}>
 					<LogOut className="mr-2 h-4 w-4" />
 					Log out
