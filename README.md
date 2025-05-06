@@ -1,36 +1,115 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Medblocks - Patient Management System
+
+![Dashboard Screenshot](https://github.com/user-attachments/assets/fc59c489-8ed1-4c9e-a0e4-c0e08aa924dc)
+
+---
+
+## Features
+
+* **Dashboard:** A central overview of clinic operations, key metrics, and appointment stats.
+* **Appointment Management:** Schedule, manage, and track appointments with real-time updates.
+* **Patient Management:** Store and manage patient details, medical history, and visit records.
+* **Treatment Management:** Define treatments with pricing, descriptions, and durations.
+* **Staff Management:** Organize staff information, contact details, and shift schedules.
+
+---
+
+## Pages
+
+### Dashboard
+
+Centralized view of clinic operations including patient stats and appointments.
+
+![Dashboard](https://github.com/user-attachments/assets/fc59c489-8ed1-4c9e-a0e4-c0e08aa924dc)
+
+### Appointments
+
+Manage patient appointments with treatment, date, time, and status.
+
+![Appointments 1](https://github.com/user-attachments/assets/d0f2c20d-21a4-4f7a-b480-b6f1c2e53c0a)
+![Appointments 2](https://github.com/user-attachments/assets/a2afbd61-5096-4493-9c63-7261e14997c2)
+
+### Patients
+
+View and manage patient information such as vitals.
+
+![Patients 1](https://github.com/user-attachments/assets/43f85fef-38db-4cea-907e-71b2c093fd87)
+![Patients 2](https://github.com/user-attachments/assets/2169fcc5-d969-4f43-8146-f1d9d845a022)
+
+### Treatments
+
+Define, update, and organize treatment options available at the clinic.
+
+![Treatments 1](https://github.com/user-attachments/assets/c35273d5-958b-48a5-b2e0-61868a7a270e)
+![Treatments 2](https://github.com/user-attachments/assets/c9b67416-8f8f-4bb5-b913-ce730258453e)
+
+### Staff List
+
+Manage staff roles, contact details, and schedules.
+
+![Staff 1](https://github.com/user-attachments/assets/d5c1547a-85dc-4b48-bd8f-fa2c120537f2)
+![Staff 2](https://github.com/user-attachments/assets/90d9fe5d-82f9-4b02-b854-fde5330da2f8)
+
+### Patient Information
+
+View complete details for an individual patient, including vitals and upcoming appointments.
+
+![Patient Info](https://github.com/user-attachments/assets/12b2c483-343e-44ae-8057-5c83dc0e44d0)
+
+### Staff Information
+
+Display detailed data for staff members, including future appointments.
+
+![Staff Info](https://github.com/user-attachments/assets/cfeb6493-01c7-4d98-9004-e21cc0df5b7d)
+
+---
 
 ## Getting Started
 
-First, run the development server:
+Follow the instructions below to set up Medblocks on your local development environment.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Prerequisites
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Ensure the following are installed on your system:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+* [Node.js](https://nodejs.org/) (v18 or higher recommended)
+* [Bun](https://bun.sh/) – a fast JavaScript runtime (usually installed with Node.js or separately)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Installation
 
-## Learn More
+1. **Clone the Repository**
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   git clone https://github.com/HitishRaoP/medblocks.git
+   cd medblocks
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **Install Dependencies**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   ```bash
+   bun install
+   ```
 
-## Deploy on Vercel
+3. **Run Bootstrap**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   Sets up internal packages and dependencies.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   bun run bootstrap
+   ```
+
+4. **Start Development Server**
+
+   ```bash
+   bun dev
+   ```
+
+   If this command fails, refer to `package.json` for the exact script name (e.g. `dev`, `start`, or `serve`).
+
+5. **Access Locally**
+
+   Open your browser and go to:
+
+   ```
+   http://localhost:3000
+   ```
