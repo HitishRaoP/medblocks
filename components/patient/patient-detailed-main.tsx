@@ -21,20 +21,24 @@ export const PatientDetailsMain = ({ id }: { id: string }) => {
 			<ProfileMini id={id} user={'patient'} />
 			<PatientVitals id={id} />
 			<div className="flex flex-col gap-4 md:flex-row">
-				<Card className="md:min-w-3xl">
-					<CardHeader>
-						<CardTitle className="text-muted-foreground">
-							Patient Information
-						</CardTitle>
-					</CardHeader>
-					<CardContent className="flex">
-						<PatientInfoCard id={id} />
-					</CardContent>
-				</Card>
-				<Appointments
-					role="patient"
-					appointments={data as AppointmentExtended[]}
-				/>
+				<div className="w-full lg:w-3/5">
+					<Card>
+						<CardHeader>
+							<CardTitle className="text-muted-foreground">
+								Patient Information
+							</CardTitle>
+						</CardHeader>
+						<CardContent className="flex">
+							<PatientInfoCard id={id} />
+						</CardContent>
+					</Card>
+				</div>
+				<div className="w-full lg:w-2/5">
+					<Appointments
+						role='patient'
+						appointments={data as AppointmentExtended[]}
+					/>
+				</div>
 			</div>
 		</div>
 	);

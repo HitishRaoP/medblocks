@@ -19,20 +19,24 @@ export const StaffDetailedMain = ({ id }: { id: string }) => {
 		<div>
 			<ProfileMini id={id} user={'staff'} />
 			<div className="flex flex-col gap-4 md:flex-row">
-				<Card className="md:min-w-3xl">
-					<CardHeader>
-						<CardTitle className="text-muted-foreground">
-							Patient Information
-						</CardTitle>
-					</CardHeader>
-					<CardContent className="flex">
-						<StaffInfoCard id={id} />
-					</CardContent>
-				</Card>
-				<Appointments
-					role="staff"
-					appointments={data as AppointmentExtended[]}
-				/>
+				<div className="w-full lg:w-3/5">
+					<Card>
+						<CardHeader>
+							<CardTitle className="text-muted-foreground">
+								Patient Information
+							</CardTitle>
+						</CardHeader>
+						<CardContent className="flex">
+							<StaffInfoCard id={id} />
+						</CardContent>
+					</Card>
+				</div>
+				<div className="w-full lg:w-2/5">
+					<Appointments
+						role="staff"
+						appointments={data as AppointmentExtended[]}
+					/>
+				</div>
 			</div>
 		</div>
 	);
