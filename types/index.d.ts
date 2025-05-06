@@ -8,7 +8,7 @@ export interface Vitals {
 	diastolic_bp: number;
 	pulse: number;
 	spo2: number;
-	recordedAt: string;
+	recordedAt: Date;
 }
 
 export interface Patient {
@@ -69,3 +69,5 @@ export type AppointmentExtended = Appointment & {
 };
 
 export type AppointmentRequest = Omit<Appointment, 'id' | 'treatment_id'>;
+
+export type PatientRequest = Omit<Patient, "id">
