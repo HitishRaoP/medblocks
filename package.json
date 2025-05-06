@@ -12,7 +12,7 @@
     "format:check": "bun format --check",
     "check-types": "tsc --noEmit --pretty",
     "validate": "bun run format:write && bun run check-types && bun run lint && bun run build",
-    "bootstrap": "sh scripts/index.sh",
+    "postinstall": "sh scripts/index.sh",
     "prepare": "husky"
   },
   "dependencies": {

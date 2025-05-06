@@ -90,15 +90,7 @@ Ensure the following are installed on your system:
    bun install
    ```
 
-3. **Run Bootstrap**
-
-   Sets up internal packages and dependencies.
-
-   ```bash
-   bun run bootstrap
-   ```
-
-4. **Start Development Server**
+3. **Start Development Server**
 
    ```bash
    bun dev
