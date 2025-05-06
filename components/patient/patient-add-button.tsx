@@ -19,7 +19,7 @@ export const PatientAddButton = () => {
 				</SheetTrigger>
 			</Button>
 			<SheetContent className="overflow-y-auto rounded-l-lg">
-				<SheetTitle>Add Treatment</SheetTitle>
+				<SheetTitle>Add Patient</SheetTitle>
 				<div className="px-4">
 					<PatientAddForm />
 				</div>

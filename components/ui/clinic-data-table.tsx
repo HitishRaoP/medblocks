@@ -88,27 +88,29 @@ export const ClinicDatatable = <TData, TValue>({
 			 * Data-table
 			 */}
 			<div className="overflow-hidden rounded-md border">
-				<div className="flex items-center gap-4 p-4">
+				<div className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between sm:flex-wrap">
 					<Input
 						placeholder={`Search ${searchPlaceholder ? searchPlaceholder : searchKey}s...`}
-						value={
-							(table.getColumn(searchKey)?.getFilterValue() as string) ?? ''
-						}
+						value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ''}
 						onChange={(event) =>
 							table.getColumn(searchKey)?.setFilterValue(event.target.value)
 						}
-						className="max-w-sm"
+						className="w-full sm:max-w-sm"
 					/>
+
 					{facet ? (
-						<DataTableFacetedFilter
-							title={facet.facetKey}
-							column={table.getColumn(facet.facetKey)}
-							options={facet.facetOptions.map((w) => ({
-								value: w,
-								label: w,
-							}))}
-						/>
+						<div className="w-full sm:w-auto">
+							<DataTableFacetedFilter
+								title={facet.facetKey}
+								column={table.getColumn(facet.facetKey)}
+								options={facet.facetOptions.map((w) => ({
+									value: w,
+									label: w,
+								}))}
+							/>
+						</div>
 					) : null}
+
 					<DataTableViewOptions table={table} />
 				</div>
 				<Table className="w-full">
@@ -123,11 +125,11 @@ export const ClinicDatatable = <TData, TValue>({
 										{header.isPlaceholder
 											? null
 											: flexRender(
-													header.column.columnDef.header
-														?.toString()
-														.toUpperCase(),
-													header.getContext(),
-												)}
+												header.column.columnDef.header
+													?.toString()
+													.toUpperCase(),
+												header.getContext(),
+											)}
 									</TableHead>
 								))}
 							</TableRow>

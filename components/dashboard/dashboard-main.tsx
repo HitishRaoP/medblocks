@@ -42,11 +42,11 @@ export const DashboardMain = ({
 	});
 
 	return (
-		<div>
-			<div className="flex gap-4">
+		<div className="space-y-6">
+			<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
 				{Object.entries(dashboard).map(([k, v]) => (
 					<Card className="w-full pb-0" key={k}>
-						<CardContent className="flex gap-4">
+						<CardContent className="flex gap-4 pt-6">
 							<div className="bg-muted w-fit rounded-md border p-2">
 								{icons[k as keyof Omit<Dashboard, 'Graph'>]}
 							</div>
@@ -56,7 +56,7 @@ export const DashboardMain = ({
 							</div>
 						</CardContent>
 						<Link href={links[k as keyof Omit<Dashboard, 'Graph'>]}>
-							<CardFooter className="bg-muted py-4 font-semibold text-emerald-500">
+							<CardFooter className="bg-muted py-3 font-semibold text-emerald-500">
 								<span className="mr-2 text-sm">See Details</span>
 								<ArrowRight size={18} />
 							</CardFooter>
@@ -64,12 +64,16 @@ export const DashboardMain = ({
 					</Card>
 				))}
 			</div>
-			<div className="flex">
-				<DashboardChart />
-				<Appointments
-					role="staff"
-					appointments={data?.data as AppointmentExtended[]}
-				/>
+			<div className="flex flex-col gap-6 lg:flex-row">
+				<div className="w-full lg:w-3/5">
+					<DashboardChart />
+				</div>
+				<div className="w-full lg:w-2/5">
+					<Appointments
+						role="staff"
+						appointments={data?.data as AppointmentExtended[]}
+					/>
+				</div>
 			</div>
 		</div>
 	);
