@@ -3,9 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
-import {
-	AppointmentFormType,
-} from '@/schemas/appointment-form-schema';
+import { AppointmentFormType } from '@/schemas/appointment-form-schema';
 import { upsertAppointment } from '@/actions/upsert-appointment';
 import { PatientFormType, PatientSchema } from '@/schemas/patient-form-schema';
 import { upsertPatient } from '@/actions/upsert-patient';
@@ -16,7 +14,7 @@ export const usePatientForm = () => {
 		defaultValues: {
 			first_name: '',
 			last_name: '',
-			dob: '',
+			dob: new Date(),
 			gender: 'Male',
 			phone: '',
 			email: '',
