@@ -34,7 +34,6 @@ export const TreatmentColumns: ColumnDef<Treatment>[] = [
 		header: 'Patient',
 		cell: ({ cell }) => {
 			const value = cell.getValue() as string;
-
 			return <ProfileMini size="small" id={value} user="patient" />;
 		},
 	},
@@ -43,7 +42,6 @@ export const TreatmentColumns: ColumnDef<Treatment>[] = [
 		header: 'Doctor',
 		cell: ({ cell }) => {
 			const value = cell.getValue() as string;
-
 			return <ProfileMini size="small" id={value} user="staff" />;
 		},
 	},

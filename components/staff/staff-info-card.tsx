@@ -5,20 +5,20 @@ import { cn, text } from '@/lib/utils';
 import { Staff } from '@/types';
 import { getRecordFromId } from '@/actions/get-record-from-id';
 import { useQuery } from '@tanstack/react-query';
+import { StaffWorkingDays } from './staff-working-days';
+import { WeekDay } from '@/types/enums';
 
 const InfoRow: React.FC<{
-	icon: React.ReactNode;
 	label: string;
-	value?: string;
+	value?: React.ReactNode;
 	className?: string;
-}> = ({ icon, label, value, className }) => {
+}> = ({ label, value, className }) => {
 	if (!value) return null;
 	return (
 		<div className={cn('flex items-start py-2.5', className)}>
-			<div className="mr-3 text-gray-400">{icon}</div>
 			<div className="flex-1">
 				<p className="text-sm text-gray-500">{label}</p>
-				<p className="mt-0.5 font-medium text-gray-700">{value}</p>
+				<div className="mt-0.5 font-medium text-gray-700">{value}</div>
 			</div>
 		</div>
 	);
@@ -26,36 +26,30 @@ const InfoRow: React.FC<{
 
 export const StaffInfoCard: React.FC<{ id: string }> = ({ id }) => {
 	const { data } = useQuery({
-		queryKey: ['Staff'],
+		queryKey: ['Staff', id],
 		queryFn: () => getRecordFromId<Staff>(id, 'staff'),
 	});
 
+	if (!data) return null;
+
+	const valueRenderMap: Partial<Record<keyof Staff, (value: unknown) => React.ReactNode>> = {
+		type: (v) => text(v as string),
+		working_days: (v) => <StaffWorkingDays days={v as WeekDay[]} />,
+	};
+
 	return (
-		<div className="grid grid-cols-1 rounded-md sm:grid-cols-2">
-			{data &&
-				Object.entries(data).map(([k, v]) => (
+		<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 rounded-md">
+			{Object.entries(data).map(([k, v]) => {
+				const render = valueRenderMap[k as keyof Staff];
+				const value = render ? render(v) : v;
+				return (
 					<InfoRow
 						key={k}
-						icon={
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className="h-5 w-5"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
-							>
-								<path
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									strokeWidth={2}
-									d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-								/>
-							</svg>
-						}
 						label={text(k)}
-						value={k === 'type' ? text(v) : v}
+						value={value}
 					/>
-				))}
+				);
+			})}
 		</div>
 	);
 };

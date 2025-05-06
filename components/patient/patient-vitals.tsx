@@ -11,14 +11,13 @@ export default function PatientVitals({ id }: { id: string }) {
 		queryKey: ['Vitals'],
 		queryFn: () => getRecordFromId<Vitals>(id, 'vitals'),
 	});
-	console.log(data);
 
 	return (
 		<Card className="mb-4">
 			<CardHeader>
 				<CardTitle className="text-muted-foreground">Patient Vitals</CardTitle>
 			</CardHeader>
-			<CardContent className="mb-6 grid grid-cols-4 gap-4 rounded-md text-sm">
+			<CardContent className="mb-6 grid grid-cols-1 sm:grid-cols-4 gap-4 rounded-md text-sm">
 				<div className="flex items-center gap-2">
 					<Thermometer className="text-blue-500" size={20} />
 					<div>

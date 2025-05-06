@@ -2,8 +2,9 @@
 
 import { cn } from '@/lib/utils';
 import { Staff } from '@/types';
-import { StaffType, WeekDay, WeekDays } from '@/types/enums';
+import { StaffType, WeekDay } from '@/types/enums';
 import { ColumnDef } from '@tanstack/react-table';
+import { StaffWorkingDays } from './staff-working-days';
 
 export const StaffColumns: ColumnDef<Staff>[] = [
 	{
@@ -55,28 +56,9 @@ export const StaffColumns: ColumnDef<Staff>[] = [
 		accessorKey: 'working_days',
 		header: 'Working Days',
 		cell: ({ cell }) => {
-			const weekDays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 			const days = cell.getValue() as WeekDay[];
-
 			return (
-				<div className="flex justify-center gap-1">
-					{WeekDays.map((day, i) => {
-						const isActive = days.includes(day);
-						return (
-							<div
-								key={i}
-								className={cn(
-									'flex h-6 w-6 items-center justify-center rounded-full text-xs font-semibold',
-									isActive
-										? 'bg-blue-400 text-white'
-										: 'bg-gray-100 text-gray-400',
-								)}
-							>
-								{weekDays[i]}
-							</div>
-						);
-					})}
-				</div>
+				<StaffWorkingDays days={days} />
 			);
 		},
 	},
