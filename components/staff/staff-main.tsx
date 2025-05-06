@@ -5,8 +5,8 @@ import React from 'react';
 import { ClinicDatatable } from '../ui/clinic-data-table';
 import { StaffColumns } from './staff-columns';
 import { StaffTypes } from '@/types/enums';
-import { TreatmentAddButton } from '../treatment/treatment-add-button';
 import { Users } from 'lucide-react';
+import { StaffAddButton } from './staff-add-button';
 
 export const StaffMain = ({
 	staff,
@@ -28,7 +28,7 @@ export const StaffMain = ({
 				facetKey: 'type',
 				facetOptions: StaffTypes.map((e) => e),
 			}}
-			addButton={<TreatmentAddButton />}
+			addButton={<StaffAddButton />}
 			redirectPath={({ row }) => `staff-list/${row?.getValue('id')}`}
 		/>
 	);

@@ -1,10 +1,10 @@
-"use server";
+'use server';
 
-import { getDB } from "@/db/pglite";
-import { AppointmentExtended } from "@/types";
+import { getDB } from '@/db/pglite';
+import { AppointmentExtended } from '@/types';
 
 export const getAppointmentsForPatient = async (patientId: string) => {
-    const QUERY = `
+	const QUERY = `
         SELECT a.*,
           to_jsonb(p) AS patient,
           to_jsonb(s) AS staff,
@@ -17,11 +17,11 @@ export const getAppointmentsForPatient = async (patientId: string) => {
         ORDER BY a.date DESC, a.start_time DESC
     `;
 
-    try {
-        const db = await getDB();
-        const response = await db.query<AppointmentExtended>(QUERY, [patientId]);
-        return response.rows;
-    } catch (error) {
-        throw new Error((error as Error).message);
-    }
+	try {
+		const db = await getDB();
+		const response = await db.query<AppointmentExtended>(QUERY, [patientId]);
+		return response.rows;
+	} catch (error) {
+		throw new Error((error as Error).message);
+	}
 };

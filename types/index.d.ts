@@ -71,3 +71,5 @@ export type AppointmentExtended = Appointment & {
 export type AppointmentRequest = Omit<Appointment, 'id' | 'treatment_id'>;
 
 export type PatientRequest = Omit<Patient, "id">
+
+export type StaffRequest = Omit<Staff, "id">

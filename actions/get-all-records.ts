@@ -1,12 +1,14 @@
-"use server"
+'use server';
 
-import { getDB } from "@/db/pglite";
+import { getDB } from '@/db/pglite';
 
-export async function getAllRecords<T>(table: 'patient' | 'staff' | 'appointment' | 'treatment') {
-    let QUERY = `SELECT * FROM ${table}`;
+export async function getAllRecords<T>(
+	table: 'patient' | 'staff' | 'appointment' | 'treatment',
+) {
+	let QUERY = `SELECT * FROM ${table}`;
 
-    if (table === "appointment") {
-        QUERY = `
+	if (table === 'appointment') {
+		QUERY = `
             SELECT
                 a.*,
                 to_jsonb(p) AS patient,
@@ -17,16 +19,16 @@ export async function getAllRecords<T>(table: 'patient' | 'staff' | 'appointment
             JOIN patient p ON t.patient_id = p.id
             JOIN staff s ON t.doctor_id = s.id
         `;
-    }
+	}
 
-    try {
-        const db = await getDB();
-        const response = await db.query<T>(QUERY);
-        return {
-            count: response.rows.length,
-            data: response.rows
-        };
-    } catch (error) {
-        throw new Error((error as Error).message);
-    }
+	try {
+		const db = await getDB();
+		const response = await db.query<T>(QUERY);
+		return {
+			count: response.rows.length,
+			data: response.rows,
+		};
+	} catch (error) {
+		throw new Error((error as Error).message);
+	}
 }

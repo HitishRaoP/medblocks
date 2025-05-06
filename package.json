@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier \"{app,lib,components,config,hooks, actions, db,types}/**/*.{ts,tsx,md}\" --ignore-path .gitignore",
+    "format": "prettier \"{actions, app, components, config, db, hooks, lib, schemas, types}/**/*.{ts,tsx,md}\" --ignore-path .gitignore",
     "format:write": "bun format --write",
     "format:check": "bun format --check",
     "check-types": "tsc --noEmit --pretty",

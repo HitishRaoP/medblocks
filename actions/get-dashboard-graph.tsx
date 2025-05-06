@@ -1,20 +1,19 @@
-'use server'
+'use server';
 
-import { getDB } from "@/db/pglite";
+import { getDB } from '@/db/pglite';
 
 type Graph = {
-    day: string;
-    Inpatient: number;
-    Outpatient: number;
-    Emergency: number;
-    Discharged: number;
+	day: string;
+	Inpatient: number;
+	Outpatient: number;
+	Emergency: number;
+	Discharged: number;
 }[];
 
-
 export async function getDashboardGraph() {
-    const db = await getDB();
-    try {
-        const { rows } = await db.query<Graph>(`
+	const db = await getDB();
+	try {
+		const { rows } = await db.query<Graph>(`
             SELECT
               TO_CHAR(a.date, 'Dy') AS day,
               COUNT(*) FILTER (WHERE p.status = 'Inpatient') AS "Inpatient",
@@ -28,9 +27,8 @@ export async function getDashboardGraph() {
             ORDER BY MIN(a.date);
           `);
 
-
-        return rows
-    } catch (error) {
-        throw new Error((error as Error).message);
-    }
+		return rows;
+	} catch (error) {
+		throw new Error((error as Error).message);
+	}
 }

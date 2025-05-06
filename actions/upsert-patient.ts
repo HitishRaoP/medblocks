@@ -1,16 +1,19 @@
-"use server";
+'use server';
 
-import { v4 as uuid } from "uuid";
-import { getDB } from "@/db/pglite";
-import { PatientFormType } from "@/schemas/patient-form-schema";
+import { v4 as uuid } from 'uuid';
+import { getDB } from '@/db/pglite';
+import { PatientFormType } from '@/schemas/patient-form-schema';
 
-export async function upsertPatient(patient: PatientFormType, patient_id?: string) {
-    const db = await getDB();
-    const id = patient_id ?? uuid();
+export async function upsertPatient(
+	patient: PatientFormType,
+	patient_id?: string,
+) {
+	const db = await getDB();
+	const id = patient_id ?? uuid();
 
-    try {
-        await db.query(
-            `
+	try {
+		await db.query(
+			`
       INSERT INTO patient (
         id, first_name, last_name, dob, gender,
         phone, email, address, emergency_contact,
@@ -29,27 +32,27 @@ export async function upsertPatient(patient: PatientFormType, patient_id?: strin
         insurance_number = EXCLUDED.insurance_number,
         status = EXCLUDED.status
     `,
-            [
-                id,
-                patient.first_name,
-                patient.last_name,
-                patient.dob,
-                patient.gender,
-                patient.phone,
-                patient.email,
-                patient.address ?? null,
-                patient.emergency_contact ?? null,
-                patient.insurance_provider ?? null,
-                patient.insurance_number ?? null,
-                patient.status,
-            ]
-        );
+			[
+				id,
+				patient.first_name,
+				patient.last_name,
+				patient.dob,
+				patient.gender,
+				patient.phone,
+				patient.email,
+				patient.address ?? null,
+				patient.emergency_contact ?? null,
+				patient.insurance_provider ?? null,
+				patient.insurance_number ?? null,
+				patient.status,
+			],
+		);
 
-        const vitalsId = uuid();
-        const v = patient.vitals;
+		const vitalsId = uuid();
+		const v = patient.vitals;
 
-        await db.query(
-            `
+		await db.query(
+			`
       INSERT INTO vitals (
         id, patient_id, temperature, systolic_bp, diastolic_bp,
         pulse, spo2, recorded_at
@@ -62,20 +65,23 @@ export async function upsertPatient(patient: PatientFormType, patient_id?: strin
         spo2 = EXCLUDED.spo2,
         recorded_at = EXCLUDED.recorded_at
     `,
-            [
-                vitalsId,
-                id,
-                v.temperature,
-                v.systolic_bp,
-                v.diastolic_bp,
-                v.pulse,
-                v.spo2,
-                v.recorded_at,
-            ]
-        );
+			[
+				vitalsId,
+				id,
+				v.temperature,
+				v.systolic_bp,
+				v.diastolic_bp,
+				v.pulse,
+				v.spo2,
+				v.recorded_at,
+			],
+		);
 
-        return { message: "Patient and vitals upserted successfully", patientId: id };
-    } catch (error) {
-        throw new Error((error as Error).message);
-    }
+		return {
+			message: 'Patient and vitals upserted successfully',
+			patientId: id,
+		};
+	} catch (error) {
+		throw new Error((error as Error).message);
+	}
 }
