@@ -1,8 +1,7 @@
-'use server';
-
-import { getDB } from '@/db/pglite';
+import { PGliteWithLive } from '@electric-sql/pglite/live';
 
 export async function getAllRecords<T>(
+	db: PGliteWithLive,
 	table: 'patient' | 'staff' | 'appointment' | 'treatment',
 ) {
 	let QUERY = `SELECT * FROM ${table}`;
@@ -22,7 +21,6 @@ export async function getAllRecords<T>(
 	}
 
 	try {
-		const db = await getDB();
 		const response = await db.query<T>(QUERY);
 		return {
 			count: response.rows.length,

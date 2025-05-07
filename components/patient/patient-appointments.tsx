@@ -17,6 +17,7 @@ import { Badge } from '../ui/badge';
 import { dateToDOB } from '@/lib/dayjs';
 import { cn } from '@/lib/utils';
 import { AppointmentStatus } from '@/types/enums';
+import { usePGlite } from '@electric-sql/pglite-react';
 
 const statusBgMap: Record<AppointmentStatus, string> = {
 	Scheduled: 'bg-blue-100 text-blue-700',
@@ -26,9 +27,10 @@ const statusBgMap: Record<AppointmentStatus, string> = {
 };
 
 export const PatientAppointments = ({ id }: { id: string }) => {
+	const { db } = usePGlite()
 	const { data } = useQuery({
 		queryKey: ['Appointments'],
-		queryFn: () => getAppointmentsForPatient(id),
+		queryFn: () => getAppointmentsForPatient(db, id),
 	});
 
 	if (data?.length === 0) {

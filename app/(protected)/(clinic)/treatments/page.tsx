@@ -1,12 +1,18 @@
-import { getAllRecords } from '@/actions/get-all-records';
+"use client"
+
 import { TreatmentMain } from '@/components/treatment/treatment-main';
 import { Treatment } from '@/types';
+import { useLiveQuery } from '@electric-sql/pglite-react';
 import React from 'react';
 
-const TreatmentsPage = async () => {
-	const response = await getAllRecords<Treatment>('treatment');
+const TreatmentsPage = () => {
+	const { rows } = useLiveQuery(
+		'SELECT * FROM treatment'
+	) ?? {};
 
-	return <TreatmentMain treatments={response.data} count={response.count} />;
+	const treatments = (rows as unknown as Treatment[]) ?? [];
+
+	return <TreatmentMain treatments={treatments} count={treatments.length} />;
 };
 
 export default TreatmentsPage;

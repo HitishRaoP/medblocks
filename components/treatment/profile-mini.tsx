@@ -9,6 +9,7 @@ import { dateToAge } from '@/lib/dayjs';
 import { Calendar, Clock4, Stethoscope, User } from 'lucide-react';
 import { cn, text } from '@/lib/utils';
 import { PatientStatus } from '@/types/enums';
+import { usePGlite } from '@electric-sql/pglite-react';
 
 const statusBgMap: Record<PatientStatus, string> = {
 	Inpatient: 'bg-blue-100 text-blue-800',
@@ -26,9 +27,10 @@ export const ProfileMini = ({
 	user: 'staff' | 'patient';
 	size?: 'large' | 'small';
 }) => {
+	const db = usePGlite();
 	const { data } = useQuery({
 		queryKey: ['profile', id, user],
-		queryFn: () => getRecordFromId<Staff & Patient>(id, user),
+		queryFn: () => getRecordFromId<Staff & Patient>(db, id, user),
 	});
 
 	const age = `${dateToAge(new Date(data?.dob as string))}`;

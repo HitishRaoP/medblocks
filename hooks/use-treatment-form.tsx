@@ -8,8 +8,9 @@ import {
 } from '@/schemas/treatment-form-schema';
 import { upsertTreatment } from '@/actions/upsert-treatment';
 import toast from 'react-hot-toast';
+import { PGliteWithLive } from '@electric-sql/pglite/live';
 
-export const useTreatmentForm = () => {
+export const useTreatmentForm = (db: PGliteWithLive) => {
 	const form = useForm<TreatmentFormType>({
 		resolver: zodResolver(treatmentFormSchema),
 		defaultValues: {
@@ -25,7 +26,7 @@ export const useTreatmentForm = () => {
 
 	async function onSubmit(values: TreatmentFormType) {
 		try {
-			const response = await upsertTreatment(values);
+			const response = await upsertTreatment(db, values);
 			toast.success(response.message);
 		} catch (error) {
 			toast.error((error as Error).message);

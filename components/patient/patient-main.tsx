@@ -14,6 +14,7 @@ export const PatientMain = ({
 	patients: Patient[];
 	count: number;
 }) => {
+	if(!patients) return <div>Loading...</div>
 	return (
 		<ClinicDatatable
 			icon={<User />}

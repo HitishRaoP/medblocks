@@ -1,10 +1,9 @@
 import { faker } from '@faker-js/faker';
-import { Genders, PatientStatuses, StaffTypes, WeekDays, AppointmentStatus } from '@/types/enums';
-import { getDB } from './pglite';
-import { Patient, Staff, Treatment } from '@/types';
+import { Genders, PatientStatuses, StaffTypes, WeekDays } from '@/types/enums';
+import { Patient, Staff } from '@/types';
+import { PGliteWithLive } from '@electric-sql/pglite/live';
 
-async function patients() {
-    const db = await getDB();
+async function patients(db: PGliteWithLive) {
     for (let i = 0; i < 10; i++) {
         await db.query(
             `INSERT INTO patient (
@@ -30,8 +29,7 @@ async function patients() {
     console.log('Seeded Patient records.');
 }
 
-async function vitals() {
-    const db = await getDB();
+async function vitals(db: PGliteWithLive) {
     const patientsResult = await db.query<Patient>(`SELECT id FROM patient`);
     const patientIds = patientsResult.rows.map(row => row.id);
 
@@ -55,8 +53,7 @@ async function vitals() {
     console.log('Seeded Vitals records.');
 }
 
-async function staff() {
-    const db = await getDB();
+async function staff(db: PGliteWithLive) {
     for (let i = 0; i < 10; i++) {
         await db.query(
             `INSERT INTO staff (
@@ -79,8 +76,7 @@ async function staff() {
     console.log('Seeded Staff records.');
 }
 
-async function treatments() {
-    const db = await getDB();
+async function treatments(db: PGliteWithLive) {
     const patientsResult = await db.query<Patient>(`SELECT id FROM patient`);
     const staffResult = await db.query<Staff>(`SELECT id FROM staff`);
 
@@ -109,8 +105,7 @@ async function treatments() {
     console.log('Seeded Treatment records.');
 }
 
-export async function appointments() {
-    const db = await getDB();
+export async function appointments(db: PGliteWithLive) {
     const treatmentsResult = await db.query<{ id: string }>(`SELECT id FROM treatment`);
     const treatmentIds = treatmentsResult.rows.map((row) => row.id);
 
@@ -156,8 +151,7 @@ export async function appointments() {
 }
 
 
-async function seed() {
-    await Promise.all([await patients(), await vitals(), await staff(), await treatments(), await appointments()]);
+export async function seed(db: PGliteWithLive) {
+    await Promise.all([await patients(db), await vitals(db), await staff(db), await treatments(db), await appointments(db)]);
 }
 
-seed();

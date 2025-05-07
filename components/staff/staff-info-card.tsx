@@ -7,6 +7,7 @@ import { getRecordFromId } from '@/actions/get-record-from-id';
 import { useQuery } from '@tanstack/react-query';
 import { StaffWorkingDays } from './staff-working-days';
 import { WeekDay } from '@/types/enums';
+import { usePGlite } from '@electric-sql/pglite-react';
 
 const InfoRow: React.FC<{
 	label: string;
@@ -25,9 +26,10 @@ const InfoRow: React.FC<{
 };
 
 export const StaffInfoCard: React.FC<{ id: string }> = ({ id }) => {
+	const db = usePGlite();
 	const { data } = useQuery({
 		queryKey: ['Staff', id],
-		queryFn: () => getRecordFromId<Staff>(id, 'staff'),
+		queryFn: () => getRecordFromId<Staff>(db,id, 'staff'),
 	});
 
 	if (!data) return null;

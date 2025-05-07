@@ -7,13 +7,13 @@ import { HeaderMain } from '@/components/root/header-main';
 const ProtectedLayout = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<SessionAuth>
-			<SidebarProvider>
-				<AppSidebar />
-				<SidebarInset>
-					<HeaderMain />
-					<div className="p-6">{children}</div>
-				</SidebarInset>
-			</SidebarProvider>
+				<SidebarProvider>
+					<AppSidebar />
+					<SidebarInset>
+						<HeaderMain />
+						<div className="p-6">{children}</div>
+					</SidebarInset>
+				</SidebarProvider>
 		</SessionAuth>
 	);
 };

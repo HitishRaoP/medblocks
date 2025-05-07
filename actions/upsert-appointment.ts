@@ -1,14 +1,12 @@
-'use server';
-
 import { v4 as uuid } from 'uuid';
-import { getDB } from '@/db/pglite';
 import { AppointmentFormType } from '@/schemas/appointment-form-schema';
+import { PGliteWithLive } from '@electric-sql/pglite/live';
 
 export async function upsertAppointment(
+	db: PGliteWithLive,
 	appointments: AppointmentFormType,
 	treatmentId?: string,
 ) {
-	const db = await getDB();
 	const generatedId = treatmentId ?? uuid();
 
 	try {

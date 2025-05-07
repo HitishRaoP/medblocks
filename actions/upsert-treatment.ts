@@ -1,14 +1,12 @@
-'use server';
-
 import { v4 as uuid } from 'uuid';
-import { getDB } from '@/db/pglite';
 import { TreatmentFormType } from '@/schemas/treatment-form-schema';
+import { PGliteWithLive } from '@electric-sql/pglite/live';
 
 export async function upsertTreatment(
+	db: PGliteWithLive,
 	treatment: TreatmentFormType,
 	treatmentId?: string,
 ) {
-	const db = await getDB();
 	const generatedTreatmentId = treatmentId ?? uuid();
 
 	try {

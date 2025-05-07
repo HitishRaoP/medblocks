@@ -5,11 +5,13 @@ import { Vitals } from '@/types';
 import { useQuery } from '@tanstack/react-query';
 import { Thermometer, HeartPulse, Droplet, Activity } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { usePGlite } from '@electric-sql/pglite-react';
 
 export default function PatientVitals({ id }: { id: string }) {
+	const db = usePGlite();
 	const { data } = useQuery({
 		queryKey: ['Vitals'],
-		queryFn: () => getRecordFromId<Vitals>(id, 'vitals'),
+		queryFn: () => getRecordFromId<Vitals>(db, id, 'vitals'),
 	});
 
 	return (

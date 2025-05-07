@@ -1,11 +1,12 @@
-'use server';
-
 import { v4 as uuid } from 'uuid';
-import { getDB } from '@/db/pglite';
 import { StaffFormType } from '@/schemas/staff-form-schema';
+import { PGliteWithLive } from '@electric-sql/pglite/live';
 
-export async function upsertStaff(staff: StaffFormType, staff_id?: string) {
-	const db = await getDB();
+export async function upsertStaff(
+	db: PGliteWithLive,
+	staff: StaffFormType,
+	staff_id?: string,
+) {
 	const id = staff_id ?? uuid();
 
 	try {

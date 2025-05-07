@@ -5,8 +5,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
 import { PatientFormType, PatientSchema } from '@/schemas/patient-form-schema';
 import { upsertPatient } from '@/actions/upsert-patient';
+import { PGliteWithLive } from '@electric-sql/pglite/live';
 
-export const usePatientForm = () => {
+export const usePatientForm = (db: PGliteWithLive) => {
 	const form = useForm<PatientFormType>({
 		resolver: zodResolver(PatientSchema),
 		defaultValues: {
@@ -34,7 +35,7 @@ export const usePatientForm = () => {
 
 	async function onSubmit(values: PatientFormType) {
 		try {
-			const response = await upsertPatient(values);
+			const response = await upsertPatient(db, values);
 			toast.success(response.message);
 		} catch (error) {
 			toast.error((error as Error).message);

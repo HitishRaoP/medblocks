@@ -1,6 +1,4 @@
-'use server';
-
-import { getDB } from '@/db/pglite';
+import { PGliteWithLive } from '@electric-sql/pglite/live';
 
 type Table = 'patient' | 'staff' | 'vitals' | 'appointment';
 
@@ -11,12 +9,15 @@ const columns: Record<Table, string> = {
 	appointment: 'treatment_id',
 };
 
-export async function getRecordFromId<T>(id: string, table: Table) {
+export async function getRecordFromId<T>(
+	db: PGliteWithLive,
+	id: string,
+	table: Table,
+) {
 	const column = columns[table];
 	const QUERY = `SELECT * FROM ${table} WHERE ${column} = $1`;
 
 	try {
-		const db = await getDB();
 		const response = await db.query<T>(QUERY, [id]);
 		return response.rows.at(0);
 	} catch (error) {

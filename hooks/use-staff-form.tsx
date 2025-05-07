@@ -6,8 +6,9 @@ import toast from 'react-hot-toast';
 import { StaffFormType, StaffSchema } from '@/schemas/staff-form-schema';
 import { upsertStaff } from '@/actions/upsert-staff';
 import { Staff } from '@/types';
+import { PGliteWithLive } from '@electric-sql/pglite/live';
 
-export const useStaffForm = () => {
+export const useStaffForm = (db: PGliteWithLive) => {
     const form = useForm<StaffFormType>({
         resolver: zodResolver(StaffSchema),
         defaultValues: {
@@ -26,7 +27,7 @@ export const useStaffForm = () => {
 
     async function onSubmit(values: Staff) {
         try {
-            const response = await upsertStaff(values);
+            const response = await upsertStaff(db, values);
             toast.success(response.message);
         } catch (error) {
             toast.error((error as Error).message);

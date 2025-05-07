@@ -16,9 +16,11 @@ import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { cn } from '@/lib/utils';
 import { CalendarIcon } from 'lucide-react';
 import { Calendar } from '../ui/calendar';
+import { usePGlite } from '@electric-sql/pglite-react';
 
 export function PatientAddForm() {
-	const { form, onSubmit } = usePatientForm();
+	const db = usePGlite()
+	const { form, onSubmit } = usePatientForm(db);
 
 	return (
 		<Form {...form}>

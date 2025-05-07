@@ -1,10 +1,6 @@
-'use server';
+import { PGliteWithLive } from '@electric-sql/pglite/live';
 
-import { getDB } from '@/db/pglite';
-
-export async function getDashboard() {
-	const db = await getDB();
-
+export async function getDashboard(db: PGliteWithLive) {
 	try {
 		const [patients, appointments, treatments, staff] = await Promise.all([
 			db.query<{ count: string }>(`SELECT COUNT(*) AS count FROM patient`),

@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { getDashboardGraph } from "@/actions/get-dashboard-graph"
 import type { PatientStatus } from "@/types/enums"
+import { usePGlite } from "@electric-sql/pglite-react"
 
 const chartConfig: Record<
 	PatientStatus,
@@ -33,9 +34,10 @@ const chartConfig: Record<
 } satisfies ChartConfig
 
 export function DashboardChart() {
+	const db = usePGlite();
 	const { data = [] } = useQuery({
 		queryKey: ["DashboardGraph"],
-		queryFn: getDashboardGraph,
+		queryFn: () => getDashboardGraph(db),
 	})
 
 	return (

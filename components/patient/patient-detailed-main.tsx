@@ -9,11 +9,13 @@ import { useQuery } from '@tanstack/react-query';
 import { getAppointmentsForPatient } from '@/actions/get-appointments-for-patient';
 import { Appointments } from '../common/appointments';
 import { AppointmentExtended } from '@/types';
+import { usePGlite } from '@electric-sql/pglite-react';
 
 export const PatientDetailsMain = ({ id }: { id: string }) => {
+	const { db } = usePGlite()
 	const { data } = useQuery({
 		queryKey: ['Appointments'],
-		queryFn: () => getAppointmentsForPatient(id),
+		queryFn: () => getAppointmentsForPatient(db, id),
 	});
 
 	return (

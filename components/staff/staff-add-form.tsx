@@ -14,9 +14,11 @@ import {
 import { useStaffForm } from '@/hooks/use-staff-form';
 import { StaffTypes, WeekDays } from '@/types/enums';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { usePGlite } from '@electric-sql/pglite-react';
 
 export const StaffAddForm = () => {
-    const { form, onSubmit } = useStaffForm()
+    const db = usePGlite();
+    const { form, onSubmit } = useStaffForm(db);
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">

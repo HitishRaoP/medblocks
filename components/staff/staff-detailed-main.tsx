@@ -8,11 +8,13 @@ import { useQuery } from '@tanstack/react-query';
 import { AppointmentExtended } from '@/types';
 import { getAppointmentsForStaff } from '@/actions/get-appointments-for-staff';
 import { StaffInfoCard } from './staff-info-card';
+import { usePGlite } from '@electric-sql/pglite-react';
 
 export const StaffDetailedMain = ({ id }: { id: string }) => {
+	const { db } = usePGlite()
 	const { data } = useQuery({
 		queryKey: ['Appointments'],
-		queryFn: () => getAppointmentsForStaff(id),
+		queryFn: () => getAppointmentsForStaff(db, id),
 	});
 
 	return (

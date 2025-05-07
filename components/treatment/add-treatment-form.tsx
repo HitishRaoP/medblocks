@@ -39,9 +39,11 @@ import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { cn } from '@/lib/utils';
 import { Calendar } from '../ui/calendar';
 import { format } from 'date-fns';
+import { usePGlite } from '@electric-sql/pglite-react';
 
 export const AddTreatmentForm = () => {
-	const { form, onSubmit } = useTreatmentForm();
+	const db = usePGlite();
+	const { form, onSubmit } = useTreatmentForm(db);
 
 	const { fields, append, remove } = useFieldArray({
 		control: form.control,
@@ -50,12 +52,12 @@ export const AddTreatmentForm = () => {
 
 	const { data: PatientData } = useQuery({
 		queryKey: ['patients'],
-		queryFn: () => getAllRecords<Patient>('patient'),
+		queryFn: () => getAllRecords<Patient>(db,'patient'),
 	});
 
 	const { data: DoctorData } = useQuery({
 		queryKey: ['doctors'],
-		queryFn: () => getAllRecords<Staff>('staff'),
+		queryFn: () => getAllRecords<Staff>(db,'staff'),
 	});
 
 	return (

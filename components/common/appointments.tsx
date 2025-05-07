@@ -1,4 +1,5 @@
 "use client"
+
 import { ScrollArea } from "../ui/scroll-area"
 import {
 	Timeline,
@@ -32,6 +33,7 @@ export const Appointments = ({
 	appointments: AppointmentExtended[]
 	role: "patient" | "staff"
 }) => {
+
 	if (appointments?.length === 0) {
 		return (
 			<Card className="flex h-full flex-col items-center justify-center space-y-4 px-4 py-10 text-center">

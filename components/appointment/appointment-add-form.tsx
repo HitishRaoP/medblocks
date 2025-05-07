@@ -43,16 +43,18 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { getAllRecords } from '@/actions/get-all-records';
 import { Treatment } from '@/types';
+import { usePGlite } from '@electric-sql/pglite-react';
 
 export const AppointmentAddForm = () => {
-	const { form, onSubmit } = useAppointmentForm();
+	const db = usePGlite();
+	const { form, onSubmit } = useAppointmentForm(db);
 	const { fields, append, remove } = useFieldArray({
 		control: form.control,
 		name: 'appointments',
 	});
 	const { data } = useQuery({
 		queryKey: ['TreatmentsForAppointmentForm'],
-		queryFn: () => getAllRecords<Treatment>('treatment'),
+		queryFn: () => getAllRecords<Treatment>(db, 'treatment'),
 	});
 
 	return (

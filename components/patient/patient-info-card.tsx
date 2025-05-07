@@ -6,6 +6,7 @@ import { Patient } from '@/types';
 import { getRecordFromId } from '@/actions/get-record-from-id';
 import { useQuery } from '@tanstack/react-query';
 import { dateToAge } from '@/lib/dayjs';
+import { usePGlite } from '@electric-sql/pglite-react';
 
 const InfoRow: React.FC<{
 	label: string;
@@ -24,9 +25,10 @@ const InfoRow: React.FC<{
 };
 
 export const PatientInfoCard: React.FC<{ id: string }> = ({ id }) => {
+	const db = usePGlite();
 	const { data } = useQuery({
 		queryKey: ['Patient'],
-		queryFn: () => getRecordFromId<Patient>(id, 'patient'),
+		queryFn: () => getRecordFromId<Patient>(db, id, 'patient'),
 	});
 
 	return (

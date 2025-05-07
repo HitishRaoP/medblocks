@@ -1,9 +1,10 @@
-'use server';
-
-import { getDB } from '@/db/pglite';
 import { Appointment } from '@/types';
+import { PGliteWithLive } from '@electric-sql/pglite/live';
 
-export const getAppointmentsForStaff = async (doctorId: string) => {
+export const getAppointmentsForStaff = async (
+	db: PGliteWithLive,
+	doctorId: string,
+) => {
 	const QUERY = `
         SELECT a.*,
           to_jsonb(p) AS patient,
@@ -17,7 +18,6 @@ export const getAppointmentsForStaff = async (doctorId: string) => {
         ORDER BY a.date DESC, a.start_time DESC
     `;
 	try {
-		const db = await getDB();
 		const response = await db.query<Appointment>(QUERY, [doctorId]);
 		return response.rows;
 	} catch (error) {

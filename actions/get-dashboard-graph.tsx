@@ -1,6 +1,4 @@
-'use server';
-
-import { getDB } from '@/db/pglite';
+import { PGliteWithLive } from '@electric-sql/pglite/live';
 
 type Graph = {
 	day: string;
@@ -10,8 +8,7 @@ type Graph = {
 	Discharged: number;
 }[];
 
-export async function getDashboardGraph() {
-	const db = await getDB();
+export async function getDashboardGraph(db: PGliteWithLive) {
 	try {
 		const { rows } = await db.query<Graph>(`
             SELECT

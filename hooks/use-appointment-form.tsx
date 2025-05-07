@@ -8,8 +8,9 @@ import {
 	appointmentSchema,
 } from '@/schemas/appointment-form-schema';
 import { upsertAppointment } from '@/actions/upsert-appointment';
+import { PGliteWithLive } from '@electric-sql/pglite/live';
 
-export const useAppointmentForm = () => {
+export const useAppointmentForm = (db: PGliteWithLive,) => {
 	const form = useForm<AppointmentFormType>({
 		resolver: zodResolver(appointmentSchema),
 		defaultValues: {
@@ -30,7 +31,7 @@ export const useAppointmentForm = () => {
 	async function onSubmit(values: AppointmentFormType) {
 		try {
 			values.appointments.map(async (a) => {
-				const response = await upsertAppointment(values, a.treatment_id);
+				const response = await upsertAppointment(db, values, a.treatment_id);
 				toast.success(response.message);
 			});
 		} catch (error) {
